@@ -1,6 +1,5 @@
 package com.umust.umustbe.thesis.controller;
 
-import com.umust.umustbe.thesis.ThesisDto;
 import com.umust.umustbe.thesis.domain.Thesis;
 import com.umust.umustbe.thesis.dto.ThesisDto;
 import com.umust.umustbe.thesis.service.ThesisService;
@@ -15,11 +14,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/thesis")
+@RequestMapping("/api")
 public class ThesisController {
     private final ThesisService thesisService;
 
-    @GetMapping
+    @GetMapping("/thesis")
     public ResponseEntity<List<ThesisDto>> getThesesByOrderByDate() {
         List<Thesis> theses = thesisService.getThesesByOrderByDate();
         List<ThesisDto> thesesDto = theses
@@ -29,8 +28,10 @@ public class ThesisController {
         return ResponseEntity.ok().body(thesesDto);
     }
 
-    @PostMapping
-    public ResponseEntity<Thesis> addArticle
+    @PostMapping("/thesis")
+    public ResponseEntity addArticle(ThesisDto thesisDto) {
+        return ResponseEntity.ok(thesisService.createThesis(thesisDto));
+    }
 
 
 }
