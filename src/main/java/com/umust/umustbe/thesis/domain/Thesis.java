@@ -1,6 +1,5 @@
 package com.umust.umustbe.thesis.domain;
 
-import com.umust.umustbe.thesis.ThesisDto;
 import com.umust.umustbe.thesis.dto.ThesisDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -28,6 +27,9 @@ public class Thesis {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    @Column(name = "journal")
+    private String journal;
+
     @Column(name = "author", nullable = false)
     private String authors;
 
@@ -35,17 +37,19 @@ public class Thesis {
     private String link;
 
     @Builder
-    public Thesis(Long id, String title, Date date, String authors, String link) {
+    public Thesis(Long id, String title, Date date, String journal, String authors, String link) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.authors = authors;
+        this.journal = journal;
         this.link = link;
     }
 
     public Thesis update(ThesisDto thesisDto) {
         this.title = thesisDto.getTitle();
         this.date = thesisDto.getDate();
+        this.journal = thesisDto.getJournal();
         this.authors = thesisDto.getAuthors();
         this.link = thesisDto.getLink();
         return this;

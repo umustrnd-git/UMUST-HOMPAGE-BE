@@ -13,6 +13,7 @@ import java.util.Date;
 public class ThesisDto {
     private String title;
     private Date date;
+    private String journal;
     private String authors;
     private String link;
 
@@ -20,6 +21,7 @@ public class ThesisDto {
         return Thesis.builder()
                 .title(title)
                 .date(date)
+                .journal(journal)
                 .authors(authors)
                 .link(link)
                 .build();
@@ -29,6 +31,7 @@ public class ThesisDto {
         return new ThesisDto(
                 entity.getTitle(),
                 entity.getDate(),
+                entity.getJournal(),
                 entity.getAuthors(),
                 entity.getLink()
         );
@@ -37,6 +40,7 @@ public class ThesisDto {
     public ThesisDto (Thesis entity) {
         this.title = entity.getTitle();
         this.date = entity.getDate();
+        this.journal = entity.getJournal();
         this.authors = entity.getAuthors();
         this.link = entity.getLink();
     }
