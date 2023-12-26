@@ -22,7 +22,11 @@ public class ThesisController {
     @GetMapping
     public ResponseEntity<List<ThesisDto>> getThesesByOrderByDate() {
         List<Thesis> theses = thesisService.getThesesByOrderByDate();
-        return ResponseEntity.ok().body(theses);
+        List<ThesisDto> thesesDto = theses
+                .stream()
+                .map(ThesisDto::new)
+                .toList();
+        return ResponseEntity.ok().body(thesesDto);
     }
 
     @PostMapping

@@ -31,7 +31,13 @@ public class ThesisDto {
                 entity.getDate(),
                 entity.getAuthors(),
                 entity.getLink()
-        )
+        );
+    }
 
+    public ThesisDto (Thesis entity) {
+        this.title = entity.getTitle();
+        this.date = entity.getDate();
+        this.authors = entity.getAuthors();
+        this.link = entity.getLink();
     }
 }
