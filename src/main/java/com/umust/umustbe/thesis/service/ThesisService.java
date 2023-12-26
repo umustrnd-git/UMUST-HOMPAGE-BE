@@ -22,7 +22,7 @@ public class ThesisService {
     }
 
     public List<Thesis> getThesesByOrderByDate() {
-        return thesisRepository.findAllByOrderByDate();
+        return thesisRepository.findAllByOrderByDateDesc();
     }
 
     public Thesis getThesisById(Long id) {
