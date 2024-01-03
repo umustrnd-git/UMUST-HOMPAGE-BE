@@ -1,0 +1,3 @@
+INSERT INTO thesis (title, journal, author, date, link) VALUES ('A Randomized Pharmacokinetic Study in Healthy Male Subjects Comparing a High-concentration, Citrate-free SB5 Formulation (40 mg/0.4 ml) and Prior SB5 (Adalimumab Biosimilar)', 'Rheumatology and Therapy', 'So-shin Ahn, Minkyung Lee, Yumin Baek, Sukho', '2022-06-10', 'https://www.naver.com/')
+INSERT INTO thesis (title, journal, author, date, link) VALUES ('제목2', '저널2', '저자2', '2022-05-30', 'https://www.naver.com/')
+INSERT INTO thesis (title, journal, author, date, link) VALUES ('제목3', '저널3', '저자3', '2023-01-17', 'https://www.naver.com/')
