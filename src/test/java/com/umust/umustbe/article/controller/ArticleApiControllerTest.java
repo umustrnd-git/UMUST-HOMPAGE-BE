@@ -18,13 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,7 +48,7 @@ class ArticleApiControllerTest {
         articleRepository.deleteAll();
     }
 
-    @DisplayName(("addArticle: 블로그 글 추가에 성공한다."))
+    @DisplayName(("addArticle: 게시글 추가에 성공한다."))
     @Test
     public void addArticle() throws Exception {
         // given
@@ -80,7 +77,7 @@ class ArticleApiControllerTest {
     }
 
     @Transactional // 롤백될 때 Auditing 정보가 적용되기 때문에 테스트 후 롤백하면서 검증
-    @DisplayName("findAllArticles: 블로그 글 목록 조회에 성공한다.")
+    @DisplayName("findAllArticles: 게시글 목록 조회에 성공한다.")
     @Test
     public void findAllArticles() throws Exception {
         // given
@@ -107,7 +104,7 @@ class ArticleApiControllerTest {
                 .andExpect(jsonPath("$[0].createdBy").value(createdBy)); // 검증 추가
     }
 
-    @DisplayName("findArticle: 블로그 글 조회에 성공한다.")
+    @DisplayName("findArticle: 게시글 조회에 성공한다.")
     @Test
     public void findArticle() throws Exception {
         // given
@@ -131,4 +128,26 @@ class ArticleApiControllerTest {
 
     }
 
+    @DisplayName("deleteArticle: 게시글 삭제에 성공한다.")
+    @Test
+    public void deleteArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article savedArticle = articleRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        // when
+        mockMvc.perform(delete(url, savedArticle.getId()))
+                .andExpect(status().isOk());
+
+        // then
+        List<Article> articles = articleRepository.findAll();
+
+        assertThat(articles).isEmpty();
+    }
 }

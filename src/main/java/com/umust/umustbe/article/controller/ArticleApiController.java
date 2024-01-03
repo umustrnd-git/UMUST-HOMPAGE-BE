@@ -45,4 +45,12 @@ public class ArticleApiController {
                 .body(ArticleResponse.from(article));
     }
 
+    @DeleteMapping("/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
+        articleService.delete(id);
+
+        return ResponseEntity.ok()
+                .build();
+    }
+
 }
