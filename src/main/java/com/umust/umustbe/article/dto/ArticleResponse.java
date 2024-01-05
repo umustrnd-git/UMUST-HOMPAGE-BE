@@ -10,6 +10,7 @@ public record ArticleResponse (Long id,
                                LocalDateTime createdAt,
                                String createdBy, String modifiedBy,
                                LocalDateTime modifiedAt){
+
     public static ArticleResponse from(Article article) {
         return new ArticleResponse(
                 article.getId(),

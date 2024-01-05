@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article extends AuditingFields {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동으로 1씩 증가
     @Column(name = "id", updatable = false)
@@ -41,4 +42,5 @@ public class Article extends AuditingFields {
         this.title = title;
         this.content = content;
     }
+
 }

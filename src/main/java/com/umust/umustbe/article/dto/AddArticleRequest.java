@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class AddArticleRequest {
+
     private String title;
     private String content;
 
@@ -18,4 +19,5 @@ public class AddArticleRequest {
                 .content(content)
                 .build();
     }
+
 }
