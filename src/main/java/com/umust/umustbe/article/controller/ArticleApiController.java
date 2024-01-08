@@ -5,6 +5,12 @@ import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
 import com.umust.umustbe.article.service.ArticleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Article", description = "Article 관련 API 입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -38,6 +45,11 @@ public class ArticleApiController {
                 .body(articles);
     }
 
+    @Operation(operationId = "DetailUser", summary = "게시글 상세 조회", description = "게시글을 상세 조회한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = int.class))),
+            @ApiResponse(responseCode = "404", description = "Article Not Found", content = @Content(schema = @Schema(implementation = int.class)))
+    })
     @GetMapping("/articles/{id}")
     // URL 경로에서 값 추출
     public ResponseEntity<ArticleResponse> findArticfle(@PathVariable long id) {
