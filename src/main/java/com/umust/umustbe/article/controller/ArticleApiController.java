@@ -12,7 +12,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -37,7 +39,7 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class)) })
     })
     @PostMapping("/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
+    public ResponseEntity<Article> addArticle(@Valid @RequestBody AddArticleRequest request) {
         Article savedArticle = articleService.save(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -106,7 +108,7 @@ public class ArticleApiController {
     })
     @PutMapping("/articles/{id}")
     public ResponseEntity<Article> updateArticle(@PathVariable long id,
-                                                 @RequestBody UpdateArticleRequest request) {
+                                                 @Valid @RequestBody UpdateArticleRequest request) {
         Article updatedArticle = articleService.update(id, request);
 
         return ResponseEntity.ok()
