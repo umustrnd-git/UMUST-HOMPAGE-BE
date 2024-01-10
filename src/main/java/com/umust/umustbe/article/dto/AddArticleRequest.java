@@ -24,6 +24,7 @@ public class AddArticleRequest {
         return Article.builder()
                 .title(title)
                 .content(content)
+                .view(1)
                 .build();
     }
 
