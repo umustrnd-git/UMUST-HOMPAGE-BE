@@ -2,14 +2,7 @@ package com.umust.umustbe.article.domain;
 
 import com.umust.umustbe.common.AuditingFields;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
 @Getter
@@ -27,15 +20,15 @@ public class Article extends AuditingFields {
     @Column(name = "content", nullable = false)
     private String content;
 
-    /*
-    @Column(name = "count")
-    private int readCount;  // 조회수
-    */
+    @Setter
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private Integer view;  // 조회수
 
     @Builder  // 빌더 패턴으로 객체 생성
-    public Article(String title, String content) {
+    public Article(String title, String content, Integer view) {
         this.title = title;
         this.content = content;
+        this.view = view;
     }
 
     public void update(String title, String content) {
