@@ -32,22 +32,24 @@ public class ArticleService {
     /* PUT) 게시글 상세 조회 및 조회수 1 증가 */
     @Transactional
     public Article findByIdAndIncreaseViewCount(long id) {
-        Optional<Article> article = articleRepository.findById(id);
-        if (article.isPresent()) {
-            Article viewedArticle = article.get();
-            viewedArticle.setView(viewedArticle.getView() + 1);
-            articleRepository.save(viewedArticle);
-            return viewedArticle;
-        } else {
-            throw new IllegalArgumentException("not found: " + id);
+        Article article = articleRepository.findByIdOrNull(id);
+
+        if (article == null) {
+            throw new IllegalArgumentException("Article with id " + id + " not found");
         }
+
+        article.increaseView();
+        return article;
     }
 
     /* PUT) 게시글 수정 */
     @Transactional
     public Article update(long id, UpdateArticleRequest request) {
-        Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+        Article article = articleRepository.findByIdOrNull(id);
+
+        if (article == null) {
+            throw new IllegalArgumentException("Article with id " + id + " not found");
+        }
 
         article.update(request.getTitle(), request.getContent());
 

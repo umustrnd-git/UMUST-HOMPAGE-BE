@@ -20,7 +20,6 @@ public class Article extends AuditingFields {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Setter
     @Column(columnDefinition = "integer default 1", nullable = false)
     private Integer view;  // 조회수
 
@@ -34,6 +33,10 @@ public class Article extends AuditingFields {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void increaseView() {
+        this.view += 1;
     }
 
 }
