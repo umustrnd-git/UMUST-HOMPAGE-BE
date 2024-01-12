@@ -2,6 +2,7 @@ package com.umust.umustbe.article.controller;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
+import com.umust.umustbe.article.dto.ArticleIdResponse;
 import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
 import com.umust.umustbe.article.service.ArticleService;
@@ -54,11 +55,9 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PostMapping("/articles")
-    public ResponseEntity<Article> addArticle(@Valid @RequestBody AddArticleRequest request) {
-        Article savedArticle = articleService.save(request);
-
+    public ResponseEntity<ArticleIdResponse> addArticle(@Valid @RequestBody AddArticleRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedArticle);
+                .body(articleService.save(request));
     }
 
     @Operation(summary = "게시글 상세 조회 및 조회수 1 증가", description = "id로 게시글을 상세 조회한다.")
@@ -86,12 +85,12 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PutMapping("/articles/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable long id,
+    public ResponseEntity updateArticle(@PathVariable long id,
                                                  @Valid @RequestBody UpdateArticleRequest request) {
-        Article updatedArticle = articleService.update(id, request);
+        articleService.update(id, request);
 
         return ResponseEntity.ok()
-                .body(updatedArticle);
+                .body(id);
     }
     @Operation(summary = "게시글 삭제", description = " id로 게시글을 삭제한다.")
     @ApiResponses(value = {

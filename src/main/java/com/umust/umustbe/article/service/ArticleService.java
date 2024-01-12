@@ -2,6 +2,7 @@ package com.umust.umustbe.article.service;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
+import com.umust.umustbe.article.dto.ArticleIdResponse;
 import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
 import com.umust.umustbe.article.repository.ArticleRepository;
@@ -29,8 +30,12 @@ public class ArticleService {
 
     /* POST) 게시글 생성 */
     @Transactional
-    public Article save(AddArticleRequest request) {
-        return articleRepository.save(request.toEntity());
+    public ArticleIdResponse save(AddArticleRequest request) {
+        Article article = request.toEntity();
+        articleRepository.save(article);
+
+        ArticleIdResponse articleIdResponse = new ArticleIdResponse(article);
+        return articleIdResponse;
     }
 
     /* PUT) 게시글 상세 조회 및 조회수 1 증가 */
@@ -48,7 +53,7 @@ public class ArticleService {
 
     /* PUT) 게시글 수정 */
     @Transactional
-    public Article update(long id, UpdateArticleRequest request) {
+    public void  update(long id, UpdateArticleRequest request) {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
@@ -56,8 +61,6 @@ public class ArticleService {
         }
 
         article.update(request.getTitle(), request.getContent());
-
-        return article;
     }
 
     /* DELETE) 게시글 삭제 */
