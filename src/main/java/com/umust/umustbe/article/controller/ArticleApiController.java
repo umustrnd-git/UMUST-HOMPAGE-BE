@@ -40,13 +40,9 @@ public class ArticleApiController {
     })
     @GetMapping("/articles")
     public ResponseEntity<List<ArticleResponse>> findAllArticles() {
-        List<ArticleResponse> articles = articleService.findAll()
-                .stream()
-                .map(ArticleResponse::from)
-                .toList();
+        List<ArticleResponse> articles = articleService.findAll();
 
-        return ResponseEntity.ok()
-                .body(articles);
+        return ResponseEntity.ok().body(articles);
     }
 
     @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)을 이용하여 게시물을 신규 등록한다.")

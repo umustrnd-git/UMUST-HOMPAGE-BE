@@ -2,6 +2,7 @@ package com.umust.umustbe.article.service;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
+import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,8 +19,12 @@ public class ArticleService {
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public List<ArticleResponse> findAll() {
+        List<Article> articles =  articleRepository.findAll();
+
+        return articles.stream()
+                .map(ArticleResponse::from)
+                .toList();
     }
 
     /* POST) 게시글 생성 */
