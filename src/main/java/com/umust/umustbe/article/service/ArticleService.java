@@ -34,8 +34,7 @@ public class ArticleService {
         Article article = request.toEntity();
         articleRepository.save(article);
 
-        ArticleIdResponse articleIdResponse = new ArticleIdResponse(article);
-        return articleIdResponse;
+        return new ArticleIdResponse(article);
     }
 
     /* PUT) 게시글 상세 조회 및 조회수 1 증가 */
@@ -53,7 +52,7 @@ public class ArticleService {
 
     /* PUT) 게시글 수정 */
     @Transactional
-    public void  update(long id, UpdateArticleRequest request) {
+    public ArticleIdResponse update(long id, UpdateArticleRequest request) {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
@@ -61,6 +60,8 @@ public class ArticleService {
         }
 
         article.update(request.getTitle(), request.getContent());
+
+        return new ArticleIdResponse(article);
     }
 
     /* DELETE) 게시글 삭제 */

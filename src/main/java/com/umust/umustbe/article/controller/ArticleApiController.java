@@ -66,7 +66,7 @@ public class ArticleApiController {
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Article not found")
     })
-    @PostMapping("/articles/{id}")
+    @PutMapping("/articles/{id}")
     // URL 경로에서 값 추출
     public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id) {
         Article article = articleService.findByIdAndIncreaseViewCount(id);
@@ -85,13 +85,11 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PutMapping("/articles/{id}")
-    public ResponseEntity updateArticle(@PathVariable long id,
+    public ResponseEntity<ArticleIdResponse> updateArticle(@PathVariable long id,
                                                  @Valid @RequestBody UpdateArticleRequest request) {
-        articleService.update(id, request);
-
-        return ResponseEntity.ok()
-                .body(id);
+        return ResponseEntity.ok(articleService.update(id, request));
     }
+    
     @Operation(summary = "게시글 삭제", description = " id로 게시글을 삭제한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No Content"),
