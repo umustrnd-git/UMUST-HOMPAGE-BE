@@ -66,7 +66,7 @@ public class ArticleApiController {
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Article not found")
     })
-    @PutMapping("/articles/{id}")
+    @PatchMapping("/articles/{id}")
     // URL 경로에서 값 추출
     public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id) {
         Article article = articleService.findByIdAndIncreaseViewCount(id);
