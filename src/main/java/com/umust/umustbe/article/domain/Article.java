@@ -1,13 +1,13 @@
 package com.umust.umustbe.article.domain;
 
-import com.umust.umustbe.common.AuditingFields;
+import com.umust.umustbe.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article extends AuditingFields {
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동으로 1씩 증가
