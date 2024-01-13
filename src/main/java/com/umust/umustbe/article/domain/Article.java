@@ -4,6 +4,8 @@ import com.umust.umustbe.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,6 +39,10 @@ public class Article extends BaseEntity {
 
     public void increaseView() {
         this.view += 1;
+    }
+
+    public void delete() {
+        this.setDeletedAt(LocalDateTime.now());
     }
 
 }

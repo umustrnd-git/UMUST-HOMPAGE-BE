@@ -68,7 +68,8 @@ public class ArticleService {
     /* DELETE) 게시글 삭제 */
     @Transactional
     public void delete(long id) {
-        articleRepository.deleteById(id);
+        Article article = articleRepository.findByIdOrNull(id);
+        article.delete();
     }
 
 }
