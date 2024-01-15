@@ -22,7 +22,7 @@ public class ArticleService {
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
     public List<ArticleResponse> findAll() {
-        List<Article> articles =  articleRepository.findAll();
+        List<Article> articles =  articleRepository.findAllNotDeleted();
 
         return ArticleDTOFactory.toArticleResponseFrom(articles);
     }
