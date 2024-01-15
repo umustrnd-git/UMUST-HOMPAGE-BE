@@ -40,17 +40,16 @@ public class ArticleApplicationService {
     }
 
     @Transactional
-    public void saveWithImage(ArticleSaveReq request) throws IOException {
-        Article article = articleFactory.saveArticle(request);
+    public void saveWithImage(AddArticleRequest request, List<MultipartFile> multipartFileList) throws IOException {
+        ArticleIdResponse articleId = articleFactory.save(request);
+        Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
         // 이미지 업로드
-        List<MultipartFile> images = request.getImages();
-
-        if (images != null) {
-            for (MultipartFile file : request.getImages()) {
+        if (multipartFileList != null) {
+            for (MultipartFile file : multipartFileList) {
                 String imgUrl = s3Handler.upload(file);
                 ArticleImage img = ArticleImage.builder()
-                        .article(article)
+                        .article(savedArticle)
                         .imgUrl(imgUrl)
                         .build();
                 articleImageRepository.save(img);

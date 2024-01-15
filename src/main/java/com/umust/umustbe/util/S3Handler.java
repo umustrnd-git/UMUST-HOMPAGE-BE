@@ -47,13 +47,14 @@ public class S3Handler {
     // S3로 업로드
     private String putS3(MultipartFile uploadFile, String fileName) throws IOException {
         String result = null;
+        String fileKey = "article/" + fileName;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(uploadFile.getContentType());
         metadata.setContentLength(uploadFile.getSize());
 
         amazonS3Client.putObject(new PutObjectRequest(
-                bucket, fileName, uploadFile.getInputStream(), metadata)
+                bucket, fileKey, uploadFile.getInputStream(), metadata)
         );
 
         // Amazon S3 클라이언트를 사용하여 업로드된 파일의 URL을 가져오기

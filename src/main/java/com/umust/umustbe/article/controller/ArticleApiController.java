@@ -1,6 +1,7 @@
 package com.umust.umustbe.article.controller;
 
 import com.umust.umustbe.article.domain.Article;
+import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.article.dto.ArticleSaveReq;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,10 +65,12 @@ public class ArticleApiController {
     */
 
     @PostMapping("/articles")
-    public ResponseEntity<?> addArticle(@Valid @RequestBody ArticleSaveReq request) throws IOException {
+    public ResponseEntity<?> addArticle(
+            @Valid @RequestPart(value = "article") AddArticleRequest request,
+            @RequestPart(value = "file", required = false)List<MultipartFile> multipartFileList) throws IOException {
 
         // 게시물 등록
-        articleApplicationService.saveWithImage(request);
+        articleApplicationService.saveWithImage(request, multipartFileList);
 
         return ResponseEntity.status(200).body("사진첨부 게시글 생성 성공");
     }
