@@ -9,6 +9,7 @@ import com.umust.umustbe.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class ArticleApplicationService {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
-            throw new IllegalArgumentException("Article with id " + id + " not found");
+            throw new NotFoundException("Article with id " + id + " not found");
         }
 
         article.increaseView();
@@ -55,7 +56,7 @@ public class ArticleApplicationService {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
-            throw new IllegalArgumentException("Article with id " + id + " not found");
+            throw new NotFoundException("Article with id " + id + " not found");
         }
 
         article.update(request.getTitle(), request.getContent());
