@@ -52,7 +52,7 @@ public class ArticleApplicationService {
 
     /* PUT) 게시글 수정 */
     @Transactional
-    public ArticleIdResponse update(long id, UpdateArticleRequest request) {
+    public void update(long id, UpdateArticleRequest request) {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
@@ -60,8 +60,6 @@ public class ArticleApplicationService {
         }
 
         article.update(request.getTitle(), request.getContent());
-
-        return new ArticleIdResponse(article);
     }
 
     /* DELETE) 게시글 삭제 */
