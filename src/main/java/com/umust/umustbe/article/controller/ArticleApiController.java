@@ -1,9 +1,8 @@
 package com.umust.umustbe.article.controller;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.article.dto.AddArticleRequest;
-import com.umust.umustbe.article.dto.ArticleIdResponse;
 import com.umust.umustbe.article.dto.ArticleResponse;
+import com.umust.umustbe.article.dto.ArticleSaveReq;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
 import com.umust.umustbe.article.service.ArticleApplicationService;
 import com.umust.umustbe.article.service.BaseResponseBody;
@@ -16,11 +15,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Article", description = "Article 관련 API 입니다.")
@@ -47,6 +46,7 @@ public class ArticleApiController {
         return ResponseEntity.ok().body(articles);
     }
 
+    /*
     @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)을 이용하여 게시물을 신규 등록한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = Article.class))),
@@ -59,6 +59,16 @@ public class ArticleApiController {
     public ResponseEntity<ArticleIdResponse> addArticle(@Valid @RequestBody AddArticleRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(articleApplicationService.save(request));
+    }
+    */
+
+    @PostMapping("/articles")
+    public ResponseEntity<?> addArticle(@Valid @RequestBody ArticleSaveReq request) throws IOException {
+
+        // 게시물 등록
+        articleApplicationService.saveWithImage(request);
+
+        return ResponseEntity.status(200).body("사진첨부 게시글 생성 성공");
     }
 
     @Operation(summary = "게시글 상세 조회 및 조회수 1 증가", description = "id로 게시글을 상세 조회한다.")
