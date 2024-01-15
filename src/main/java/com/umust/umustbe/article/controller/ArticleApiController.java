@@ -6,6 +6,7 @@ import com.umust.umustbe.article.dto.ArticleIdResponse;
 import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
 import com.umust.umustbe.article.service.ArticleService;
+import com.umust.umustbe.article.service.BaseResponseBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -68,7 +69,7 @@ public class ArticleApiController {
     })
     @PatchMapping("/articles/{id}")
     // URL 경로에서 값 추출
-    public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id) {
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long id) {
         Article article = articleService.findByIdAndIncreaseViewCount(id);
 
         return ResponseEntity.ok()
@@ -85,13 +86,15 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PutMapping("/articles/{id}")
-    public ResponseEntity<ArticleIdResponse> updateArticle(@PathVariable long id,
-                                                 @Valid @RequestBody UpdateArticleRequest request) {
-        return ResponseEntity.ok(articleService.update(id, request));
+    public ResponseEntity<BaseResponseBody> updateArticle(@PathVariable Long id,
+                                                          @Valid @RequestBody UpdateArticleRequest request) {
+        articleService.update(id, request);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 수정 성공"));
     }
-    
+
     @Operation(summary = "게시글 삭제", description = " id로 게시글을 삭제한다.")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "delete OK"),
             @ApiResponse(responseCode = "204", description = "No Content"),
             @ApiResponse(responseCode = "404", description = "Article not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error",
@@ -99,11 +102,9 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @DeleteMapping("/articles/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
+    public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable Long id) {
         articleService.delete(id);
-
-        return ResponseEntity.ok()
-                .build();
+        return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 삭제 성공"));
     }
 
 }
