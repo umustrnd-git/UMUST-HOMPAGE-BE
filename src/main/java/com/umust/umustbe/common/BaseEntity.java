@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public abstract class AuditingFields {
+public abstract class BaseEntity {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
@@ -37,5 +37,12 @@ public abstract class AuditingFields {
     @LastModifiedBy
     @Column(nullable = false, length = 100)
     private String modifiedBy; // 수정자
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime deletedAt; // 삭제일시
+
+    protected void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 
 }

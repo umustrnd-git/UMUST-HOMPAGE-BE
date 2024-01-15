@@ -1,13 +1,16 @@
 package com.umust.umustbe.article.domain;
 
-import com.umust.umustbe.common.AuditingFields;
+import com.umust.umustbe.article.dto.ArticleResponse;
+import com.umust.umustbe.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article extends AuditingFields {
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동으로 1씩 증가
@@ -37,6 +40,22 @@ public class Article extends AuditingFields {
 
     public void increaseView() {
         this.view += 1;
+    }
+
+    public void delete() {
+        this.setDeletedAt(LocalDateTime.now());
+    }
+
+    public ArticleResponse toDTO() {
+        return new ArticleResponse(
+                this.id,
+                this.title,
+                this.content,
+                this.view,
+                this.getCreatedAt(),
+                this.getCreatedBy(),
+                this.getModifiedAt()
+        );
     }
 
 }

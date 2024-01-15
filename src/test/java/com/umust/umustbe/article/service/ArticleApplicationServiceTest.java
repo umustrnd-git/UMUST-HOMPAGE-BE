@@ -1,6 +1,5 @@
 package com.umust.umustbe.article.service;
 
-import com.umust.umustbe.article.ArticleDTOFactory;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.ArticleIdResponse;
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,13 +19,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ArticleServiceTest {
+class ArticleApplicationServiceTest {
 
     @Mock
     private ArticleRepository articleRepository;
 
     @InjectMocks
-    private ArticleService articleService;
+    private ArticleApplicationService articleApplicationService;
 
     @Test
     void findAll() {
@@ -40,7 +38,7 @@ class ArticleServiceTest {
         when(articleRepository.findAll()).thenReturn(mockArticles);
 
         // When
-        List<ArticleResponse> articleResponses = articleService.findAll();
+        List<ArticleResponse> articleResponses = articleApplicationService.findAll();
 
         // Then
         verify(articleRepository, times(1)).findAll();
@@ -59,7 +57,7 @@ class ArticleServiceTest {
         when(articleRepository.save(any(Article.class))).thenReturn(article);
 
         // When
-        ArticleIdResponse response = articleService.save(request);
+        ArticleIdResponse response = articleApplicationService.save(request);
 
         // Then
         verify(articleRepository, times(1)).save(any(Article.class));

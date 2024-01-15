@@ -2,10 +2,11 @@ package com.umust.umustbe.article.controller;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
-import com.umust.umustbe.article.dto.ArticleIdResponse;
 import com.umust.umustbe.article.dto.ArticleResponse;
+import com.umust.umustbe.article.dto.ArticleSaveReq;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
-import com.umust.umustbe.article.service.ArticleService;
+import com.umust.umustbe.article.service.ArticleApplicationService;
+import com.umust.umustbe.article.service.BaseResponseBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,11 +16,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Article", description = "Article 관련 API 입니다.")
@@ -28,7 +30,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class ArticleApiController {
 
-    private final ArticleService articleService;
+    private final ArticleApplicationService articleApplicationService;
 
     @Operation(summary = "전체 게시글 조회", description = "모든 게시글을 조회한다.")
     @ApiResponses(value = {
@@ -41,11 +43,12 @@ public class ArticleApiController {
     })
     @GetMapping("/articles")
     public ResponseEntity<List<ArticleResponse>> findAllArticles() {
-        List<ArticleResponse> articles = articleService.findAll();
+        List<ArticleResponse> articles = articleApplicationService.findAll();
 
         return ResponseEntity.ok().body(articles);
     }
 
+    /*
     @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)을 이용하여 게시물을 신규 등록한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = Article.class))),
@@ -57,7 +60,19 @@ public class ArticleApiController {
     @PostMapping("/articles")
     public ResponseEntity<ArticleIdResponse> addArticle(@Valid @RequestBody AddArticleRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(articleService.save(request));
+                .body(articleApplicationService.save(request));
+    }
+    */
+
+    @PostMapping("/articles")
+    public ResponseEntity<?> addArticle(
+            @Valid @RequestPart(value = "article") AddArticleRequest request,
+            @RequestPart(value = "file", required = false)List<MultipartFile> multipartFileList) throws IOException {
+
+        // 게시물 등록
+        articleApplicationService.saveWithImage(request, multipartFileList);
+
+        return ResponseEntity.status(200).body("사진첨부 게시글 생성 성공");
     }
 
     @Operation(summary = "게시글 상세 조회 및 조회수 1 증가", description = "id로 게시글을 상세 조회한다.")
@@ -68,8 +83,8 @@ public class ArticleApiController {
     })
     @PatchMapping("/articles/{id}")
     // URL 경로에서 값 추출
-    public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id) {
-        Article article = articleService.findByIdAndIncreaseViewCount(id);
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long id) {
+        Article article = articleApplicationService.findByIdAndIncreaseViewCount(id);
 
         return ResponseEntity.ok()
                 .body(ArticleResponse.from(article));
@@ -85,13 +100,15 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PutMapping("/articles/{id}")
-    public ResponseEntity<ArticleIdResponse> updateArticle(@PathVariable long id,
-                                                 @Valid @RequestBody UpdateArticleRequest request) {
-        return ResponseEntity.ok(articleService.update(id, request));
+    public ResponseEntity<BaseResponseBody> updateArticle(@PathVariable Long id,
+                                                          @Valid @RequestBody UpdateArticleRequest request) {
+        articleApplicationService.update(id, request);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 수정 성공"));
     }
-    
+
     @Operation(summary = "게시글 삭제", description = " id로 게시글을 삭제한다.")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "delete OK"),
             @ApiResponse(responseCode = "204", description = "No Content"),
             @ApiResponse(responseCode = "404", description = "Article not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error",
@@ -99,11 +116,9 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @DeleteMapping("/articles/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
-        articleService.delete(id);
-
-        return ResponseEntity.ok()
-                .build();
+    public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable Long id) {
+        articleApplicationService.delete(id);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 삭제 성공"));
     }
 
 }
