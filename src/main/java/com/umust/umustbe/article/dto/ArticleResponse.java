@@ -11,7 +11,7 @@ public record ArticleResponse (Long id,
                                String content,
                                Integer view,
                                LocalDateTime createdAt,
-                               String createdBy, String modifiedBy,
+                               String createdBy,
                                LocalDateTime modifiedAt){
 
     public static ArticleResponse from(Article article) {
@@ -22,7 +22,6 @@ public record ArticleResponse (Long id,
                 article.getView(),
                 article.getCreatedAt(),
                 article.getCreatedBy(),
-                article.getModifiedBy(),
                 article.getModifiedAt()
         );
     }
