@@ -1,6 +1,5 @@
 package com.umust.umustbe.article.service;
 
-import com.umust.umustbe.article.ArticleDTOFactory;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.ArticleIdResponse;
@@ -24,14 +23,20 @@ public class ArticleService {
     public List<ArticleResponse> findAll() {
         List<Article> articles =  articleRepository.findAllNotDeleted();
 
-        return ArticleDTOFactory.toArticleResponseFrom(articles);
+        return articles.stream()
+                .map(Article::toDTO).toList();
     }
 
     /* POST) 게시글 생성 */
     @Transactional
     public ArticleIdResponse save(AddArticleRequest request) {
-//        Article article = request.toEntity();
-        Article article = ArticleDTOFactory.toArticleFromAddRequest(request);
+
+        Article article = Article.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .view(1)
+                .build();
+
         articleRepository.save(article);
 
         return new ArticleIdResponse(article);

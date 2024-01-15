@@ -1,5 +1,6 @@
 package com.umust.umustbe.article.domain;
 
+import com.umust.umustbe.article.dto.ArticleResponse;
 import com.umust.umustbe.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,6 +44,18 @@ public class Article extends BaseEntity {
 
     public void delete() {
         this.setDeletedAt(LocalDateTime.now());
+    }
+
+    public ArticleResponse toDTO() {
+        return new ArticleResponse(
+                this.id,
+                this.title,
+                this.content,
+                this.view,
+                this.getCreatedAt(),
+                this.getCreatedBy(),
+                this.getModifiedAt()
+        );
     }
 
 }
