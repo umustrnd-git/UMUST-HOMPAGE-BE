@@ -39,7 +39,6 @@ public abstract class BaseEntity {
     private String modifiedBy; // 수정자
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @LastModifiedDate
     private LocalDateTime deletedAt; // 삭제일시
 
     protected void setDeletedAt(LocalDateTime deletedAt) {
