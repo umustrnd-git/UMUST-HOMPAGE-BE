@@ -1,4 +1,4 @@
-package com.umust.umustbe.article.service;
+package com.umust.umustbe.article.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

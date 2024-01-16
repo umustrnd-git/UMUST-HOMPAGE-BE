@@ -1,6 +1,7 @@
 package com.umust.umustbe.article.dto;
 
 import com.umust.umustbe.article.domain.Article;
+import com.umust.umustbe.article.type.ArticleCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,12 +21,8 @@ public class AddArticleRequest {
     @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
-    public Article toEntity() {
-        return Article.builder()
-                .title(title)
-                .content(content)
-                .view(1)
-                .build();
-    }
+    @Schema(description = "카테고리", nullable = false)
+    @NotBlank(message = "카테고리 분류 (NOTICE, NEWS, EVENT")
+    private String category;
 
 }

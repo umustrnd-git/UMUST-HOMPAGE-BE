@@ -1,12 +1,12 @@
-package com.umust.umustbe.article.repository;
+package com.umust.umustbe.image.repository;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.article.domain.ArticleImage;
+import com.umust.umustbe.image.domain.ArticleImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ArticleImageRepository extends JpaRepository<ArticleImage, Long> {
+public interface ImageRepository extends JpaRepository<ArticleImage, Long> {
     void deleteByArticle(Article article);
 
     List<ArticleImage> findByArticle(Article article);
