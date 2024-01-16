@@ -1,5 +1,6 @@
-package com.umust.umustbe.article.domain;
+package com.umust.umustbe.image.domain;
 
+import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class ArticleImage extends BaseTimeEntity {
     @Column(name = "article_img_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id", nullable = false)
     private Article article;
 
