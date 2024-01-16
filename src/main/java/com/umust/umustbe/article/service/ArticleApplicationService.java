@@ -1,10 +1,11 @@
 package com.umust.umustbe.article.service;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.article.domain.ArticleImage;
+import com.umust.umustbe.image.domain.ArticleImage;
 import com.umust.umustbe.article.dto.*;
-import com.umust.umustbe.article.repository.ArticleImageRepository;
+import com.umust.umustbe.image.repository.ImageRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
+import com.umust.umustbe.image.service.ImageService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,10 @@ import java.util.List;
 public class ArticleApplicationService {
 
     private final ArticleFactory articleFactory;
+    private final ImageService imageService;
     private final S3Handler s3Handler;
     private final ArticleRepository articleRepository;
-    private final ArticleImageRepository articleImageRepository;
+    private final ImageRepository articleImageRepository;
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
@@ -45,16 +47,7 @@ public class ArticleApplicationService {
         Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
         // 이미지 업로드
-        if (multipartFileList != null) {
-            for (MultipartFile file : multipartFileList) {
-                String imgUrl = s3Handler.upload(file);
-                ArticleImage img = ArticleImage.builder()
-                        .article(savedArticle)
-                        .imgUrl(imgUrl)
-                        .build();
-                articleImageRepository.save(img);
-            }
-        }
+        imageService.uploadArticleImages(multipartFileList, savedArticle);
 
     }
 
