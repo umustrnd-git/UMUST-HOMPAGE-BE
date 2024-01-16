@@ -23,26 +23,13 @@ public class ArticleFactory {
         Article article = Article.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
+                .category(request.getCategory())
                 .view(1)
                 .build();
 
         articleRepository.save(article);
 
         return new ArticleIdResponse(article);
-    }
-
-    @Transactional
-    public Article saveArticle(ArticleSaveReq request) {
-
-        Article article = Article.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .view(1)
-                .build();
-
-        articleRepository.save(article);
-
-        return article;
     }
 
 }

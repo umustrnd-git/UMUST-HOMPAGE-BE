@@ -1,11 +1,14 @@
 package com.umust.umustbe.article.domain;
 
 import com.umust.umustbe.article.dto.ArticleResponse;
+import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.BaseEntity;
+import com.umust.umustbe.image.domain.ArticleImage;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +18,11 @@ public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동으로 1씩 증가
     @Column(name = "id", updatable = false)
-    private long id;
+    private Long id;
+
+    @Column(name = "article_category", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ArticleCategory category;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -26,11 +33,15 @@ public class Article extends BaseEntity {
     @Column(columnDefinition = "integer default 1", nullable = false)
     private Integer view;  // 조회수
 
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ArticleImage> images;
+
     @Builder  // 빌더 패턴으로 객체 생성
-    public Article(String title, String content, Integer view) {
+    public Article(String title, String content, Integer view, String category) {
         this.title = title;
         this.content = content;
         this.view = view;
+        this.category = ArticleCategory.valueOf(category);
     }
 
     public void update(String title, String content) {
@@ -51,6 +62,7 @@ public class Article extends BaseEntity {
                 this.id,
                 this.title,
                 this.content,
+                this.getCategory(),
                 this.view,
                 this.getCreatedAt(),
                 this.getCreatedBy(),

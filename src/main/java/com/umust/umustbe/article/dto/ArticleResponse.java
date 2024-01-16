@@ -1,6 +1,7 @@
 package com.umust.umustbe.article.dto;
 
 import com.umust.umustbe.article.domain.Article;
+import com.umust.umustbe.article.type.ArticleCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 public record ArticleResponse (Long id,
                                String title,
                                String content,
+                               ArticleCategory category,
                                Integer view,
                                LocalDateTime createdAt,
                                String createdBy,
@@ -19,6 +21,7 @@ public record ArticleResponse (Long id,
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
+                article.getCategory(),
                 article.getView(),
                 article.getCreatedAt(),
                 article.getCreatedBy(),
