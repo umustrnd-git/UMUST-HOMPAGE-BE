@@ -44,8 +44,7 @@ public class ArticleApiController {
         return ResponseEntity.ok().body(articles);
     }
 
-    /*
-    @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)을 이용하여 게시물을 신규 등록한다.")
+    @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)과 이미지 리스트(List<MultipartFile>) 이용하여 게시물을 신규 등록한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = Article.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -53,13 +52,6 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @PostMapping("/articles")
-    public ResponseEntity<ArticleIdResponse> addArticle(@Valid @RequestBody AddArticleRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(articleApplicationService.save(request));
-    }
-    */
-
     @PostMapping("/articles")
     public ResponseEntity<?> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
