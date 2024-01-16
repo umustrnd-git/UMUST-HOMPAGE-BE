@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class ArticleImage extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_img_id")
@@ -25,4 +26,5 @@ public class ArticleImage extends BaseTimeEntity {
 
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
+
 }
