@@ -2,22 +2,25 @@ package com.umust.umustbe.article.dto;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.type.ArticleCategory;
+import com.umust.umustbe.image.dto.ImageResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Schema(description = "게시물 리스트 응답DTO")
-public record ArticleResponse (Long id,
-                               String title,
-                               String content,
-                               ArticleCategory category,
-                               Integer view,
-                               LocalDateTime createdAt,
-                               String createdBy,
-                               LocalDateTime modifiedAt){
+public record ArticleListResponse(Long id,
+                                  String title,
+                                  String content,
+                                  ArticleCategory category,
+                                  Integer view,
+                                  LocalDateTime createdAt,
+                                  String createdBy,
+                                  LocalDateTime modifiedAt
+) {
+    public static ArticleListResponse from(Article article) {
 
-    public static ArticleResponse from(Article article) {
-        return new ArticleResponse(
+        return new ArticleListResponse(
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
@@ -28,5 +31,4 @@ public record ArticleResponse (Long id,
                 article.getModifiedAt()
         );
     }
-
 }

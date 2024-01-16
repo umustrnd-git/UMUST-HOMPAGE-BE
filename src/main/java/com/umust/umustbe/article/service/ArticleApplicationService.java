@@ -1,7 +1,6 @@
 package com.umust.umustbe.article.service;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.image.domain.ArticleImage;
 import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.image.repository.ImageRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
@@ -28,11 +27,11 @@ public class ArticleApplicationService {
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
-    public List<ArticleResponse> findAll() {
+    public List<ArticleListResponse> findAll() {
         List<Article> articles = articleRepository.findAllNotDeleted();
 
         return articles.stream()
-                .map(Article::toDTO).toList();
+                .map(ArticleListResponse::from).toList();
     }
 
     /* POST) 게시글 생성 */

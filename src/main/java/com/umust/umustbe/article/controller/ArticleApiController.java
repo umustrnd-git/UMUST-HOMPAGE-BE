@@ -1,11 +1,8 @@
 package com.umust.umustbe.article.controller;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.article.dto.AddArticleRequest;
-import com.umust.umustbe.article.dto.ArticleResponse;
-import com.umust.umustbe.article.dto.UpdateArticleRequest;
+import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.service.ArticleApplicationService;
-import com.umust.umustbe.article.dto.BaseResponseBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,7 +30,7 @@ public class ArticleApiController {
 
     @Operation(summary = "전체 게시글 조회", description = "모든 게시글을 조회한다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ArticleResponse.class)))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ArticleDetailResponse.class)))),
             @ApiResponse(responseCode = "204", description = "No Content"),
             @ApiResponse(responseCode = "404", description = "No articles found"),
             @ApiResponse(responseCode = "500", description = "Internal server error",
@@ -41,8 +38,8 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @GetMapping("/articles")
-    public ResponseEntity<List<ArticleResponse>> findAllArticles() {
-        List<ArticleResponse> articles = articleApplicationService.findAll();
+    public ResponseEntity<List<ArticleListResponse>> findAllArticles() {
+        List<ArticleListResponse> articles = articleApplicationService.findAll();
 
         return ResponseEntity.ok().body(articles);
     }
@@ -76,17 +73,17 @@ public class ArticleApiController {
 
     @Operation(summary = "게시글 상세 조회 및 조회수 1 증가", description = "id로 게시글을 상세 조회한다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ArticleResponse.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ArticleDetailResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Article not found")
     })
     @PatchMapping("/articles/{id}")
     // URL 경로에서 값 추출
-    public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long id) {
+    public ResponseEntity<ArticleDetailResponse> findArticle(@PathVariable Long id) {
         Article article = articleApplicationService.findByIdAndIncreaseViewCount(id);
 
         return ResponseEntity.ok()
-                .body(ArticleResponse.from(article));
+                .body(ArticleDetailResponse.from(article));
     }
 
     @Operation(summary = "게시글 수정", description = "id로 게시글을 수정한다.")
