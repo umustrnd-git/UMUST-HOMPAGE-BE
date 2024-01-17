@@ -41,12 +41,14 @@ public class ArticleApplicationService {
     }
 
     @Transactional
-    public void saveWithImage(AddArticleRequest request, List<MultipartFile> multipartFileList) throws IOException {
+    public ArticleIdResponse saveWithImage(AddArticleRequest request, List<MultipartFile> multipartFileList) throws IOException {
         ArticleIdResponse articleId = articleFactory.save(request);
         Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
         // 이미지 업로드
         imageService.uploadArticleImages(multipartFileList, savedArticle);
+
+        return articleId;
 
     }
 

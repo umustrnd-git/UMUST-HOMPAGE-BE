@@ -53,14 +53,15 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PostMapping("/articles")
-    public ResponseEntity<?> addArticle(
+    public ResponseEntity<ArticleIdResponse> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
             @RequestPart(value = "file", required = false)List<MultipartFile> multipartFileList) throws IOException {
 
         // 게시물 등록
-        articleApplicationService.saveWithImage(request, multipartFileList);
+        ArticleIdResponse articleIdResponse = articleApplicationService
+                .saveWithImage(request, multipartFileList);
 
-        return ResponseEntity.status(200).body("사진첨부 게시글 생성 성공");
+        return ResponseEntity.status(200).body(articleIdResponse);
     }
 
     @Operation(summary = "게시글 상세 조회 및 조회수 1 증가", description = "id로 게시글을 상세 조회한다.")
