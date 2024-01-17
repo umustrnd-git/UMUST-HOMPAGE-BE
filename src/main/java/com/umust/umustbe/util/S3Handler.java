@@ -58,7 +58,7 @@ public class S3Handler {
         );
 
         // Amazon S3 클라이언트를 사용하여 업로드된 파일의 URL을 가져오기
-        URL url = amazonS3Client.getUrl(bucket, fileName);
+        URL url = amazonS3Client.getUrl(bucket, fileKey);
         if (url != null) {
             result = url.toString();
         }

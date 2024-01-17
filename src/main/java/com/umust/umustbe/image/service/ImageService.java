@@ -14,8 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ImageService {
-    private final ImageRepository imageRepository;
 
+    private final ImageRepository imageRepository;
     private final S3Handler s3Handler;
 
     public void uploadArticleImages(List<MultipartFile> multipartFileList, Article article) throws IOException {

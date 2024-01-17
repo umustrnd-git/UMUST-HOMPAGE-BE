@@ -3,7 +3,7 @@ package com.umust.umustbe.article.service;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.ArticleIdResponse;
-import com.umust.umustbe.article.dto.ArticleResponse;
+import com.umust.umustbe.article.dto.ArticleDetailResponse;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,14 +38,14 @@ class ArticleApplicationServiceTest {
         when(articleRepository.findAll()).thenReturn(mockArticles);
 
         // When
-        List<ArticleResponse> articleResponses = articleApplicationService.findAll();
+        List<ArticleDetailResponse> articleDetailRespons = articleApplicationService.findAll();
 
         // Then
         verify(articleRepository, times(1)).findAll();
-        assertEquals(mockArticles.size(), articleResponses.size());
+        assertEquals(mockArticles.size(), articleDetailRespons.size());
 
-        assertEquals(mockArticles.get(0).getId(), articleResponses.get(0).id());
-        assertEquals(mockArticles.get(1).getTitle(), articleResponses.get(1).title());
+        assertEquals(mockArticles.get(0).getId(), articleDetailRespons.get(0).id());
+        assertEquals(mockArticles.get(1).getTitle(), articleDetailRespons.get(1).title());
     }
 
     @Test

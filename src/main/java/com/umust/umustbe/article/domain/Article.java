@@ -1,9 +1,10 @@
 package com.umust.umustbe.article.domain;
 
-import com.umust.umustbe.article.dto.ArticleResponse;
+import com.umust.umustbe.article.dto.ArticleDetailResponse;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.BaseEntity;
 import com.umust.umustbe.image.domain.ArticleImage;
+import com.umust.umustbe.image.dto.ImageResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,8 +58,8 @@ public class Article extends BaseEntity {
         this.setDeletedAt(LocalDateTime.now());
     }
 
-    public ArticleResponse toDTO() {
-        return new ArticleResponse(
+    public ArticleDetailResponse toDetailDTO() {
+        return new ArticleDetailResponse(
                 this.id,
                 this.title,
                 this.content,
@@ -66,7 +67,9 @@ public class Article extends BaseEntity {
                 this.view,
                 this.getCreatedAt(),
                 this.getCreatedBy(),
-                this.getModifiedAt()
+                this.getModifiedAt(),
+                this.getImages().stream()
+                        .map(ImageResponse::from).toList()
         );
     }
 
