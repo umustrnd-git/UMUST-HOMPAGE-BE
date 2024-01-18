@@ -1,14 +1,14 @@
 spring:
-  profiles:
-    active:
-      - local
-    group:
-      local:
-        - db-local
-      dev:
-        - db-dev
-    include:
-      - db
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: create-drop
+      defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
 
 # multipart 설정
   servlet:
