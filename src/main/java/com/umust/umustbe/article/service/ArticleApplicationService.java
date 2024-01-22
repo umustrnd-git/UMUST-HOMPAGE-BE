@@ -2,6 +2,7 @@ package com.umust.umustbe.article.service;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
+import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.image.repository.ImageRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.image.service.ImageService;
@@ -14,6 +15,7 @@ import org.webjars.NotFoundException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +36,19 @@ public class ArticleApplicationService {
                 .map(ArticleListResponse::from).toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<ArticleListResponse> getArticlesByCategoryAndNotDeleted(String category) {
+        try {
+            ArticleCategory articleCategory = ArticleCategory.valueOf(category.toUpperCase());
+            List<Article> articles = articleRepository.findArticlesByCategoryAndNotDeleted(articleCategory);
+            return articles.stream()
+                    .map(ArticleListResponse::from).toList();
+        } catch (IllegalArgumentException e) {
+            // 유효하지 않은 카테고리에 대한 예외 처리
+            throw new IllegalArgumentException("Invalid category: " + category);
+        }
+    }
+
     /* POST) 게시글 생성 */
     @Transactional
     public ArticleIdResponse save(AddArticleRequest request) {
@@ -49,7 +64,6 @@ public class ArticleApplicationService {
         imageService.uploadArticleImages(multipartFileList, savedArticle);
 
         return articleId;
-
     }
 
     /* PUT) 게시글 상세 조회 및 조회수 1 증가 */

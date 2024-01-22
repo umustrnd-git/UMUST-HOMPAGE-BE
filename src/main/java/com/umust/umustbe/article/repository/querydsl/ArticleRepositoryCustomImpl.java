@@ -2,6 +2,7 @@ package com.umust.umustbe.article.repository.querydsl;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.domain.QArticle;
+import com.umust.umustbe.article.type.ArticleCategory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -22,6 +23,16 @@ ArticleRepositoryCustom {
                 .fetch();
 
         return articleList;
+    }
+
+    @Override
+    public List<Article> findArticlesByCategoryAndNotDeleted(ArticleCategory category) {
+        QArticle article = QArticle.article;
+
+        return from(article)
+                .where(article.category.eq(category)
+                        .and(article.deletedAt.isNull()))
+                .fetch();
     }
 
 }

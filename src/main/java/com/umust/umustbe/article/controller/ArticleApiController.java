@@ -44,6 +44,14 @@ public class ArticleApiController {
         return ResponseEntity.ok().body(articles);
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<ArticleListResponse>> getArticlesByCategoryAndNotDeleted(
+            @PathVariable String category
+    ) {
+        List<ArticleListResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category);
+        return ResponseEntity.ok(articles);
+    }
+
     @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)과 이미지 리스트(List<MultipartFile>) 이용하여 게시물을 신규 등록한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = Article.class))),
