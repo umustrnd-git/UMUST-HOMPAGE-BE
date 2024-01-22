@@ -1,21 +1,16 @@
 spring:
-  datasource:
-    username: umust
-    password: umust302rd
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: awseb-e-jum4i3epiy-stack-awsebrdsdatabase-nqqnysjqsbwc.crouk4wkqhmv.ap-northeast-2.rds.amazonaws.com
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        ddl-auto: create-drop
-      defer-datasource-initialization: true
-  h2:
-    console:
-      enabled: true
+  profiles:
+    active:
+      - local
+    group:
+      local:
+        - db-local
+      dev:
+        - db-dev
+    include:
+      - db
 
-# multipart 설정
+  # multipart 설정
   servlet:
     multipart:
       max-file-size: 50MB
