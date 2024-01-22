@@ -6,6 +6,9 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 
 --- # local
 spring:
@@ -16,7 +19,7 @@ spring:
     show-sql: true
     database-platform: H2
     hibernate:
-        ddl-auto: create-drop
+      ddl-auto: create-drop
   datasource:
     url: jdbc:h2:mem:localdb
   h2:
@@ -29,8 +32,8 @@ spring:
     activate:
       on-profile: "db-dev"
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: create-drop
   datasource:
-    hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver

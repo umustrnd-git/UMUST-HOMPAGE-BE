@@ -10,7 +10,7 @@ spring:
     include:
       - db
 
-# multipart 설정
+  # multipart 설정
   servlet:
     multipart:
       max-file-size: 50MB
