@@ -22,6 +22,7 @@ public class ArticleImage extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
+    @Column(name = "article_id")
     private Article article;
 
     @Column(name = "img_url", nullable = false)
