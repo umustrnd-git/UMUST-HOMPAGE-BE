@@ -36,6 +36,7 @@ public class ArticleApplicationService {
                 .map(ArticleListResponse::from).toList();
     }
 
+    /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
     public List<ArticleListResponse> getArticlesByCategoryAndNotDeleted(String category) {
         try {
@@ -43,6 +44,24 @@ public class ArticleApplicationService {
             List<Article> articles = articleRepository.findArticlesByCategoryAndNotDeleted(articleCategory);
             return articles.stream()
                     .map(ArticleListResponse::from).toList();
+        } catch (IllegalArgumentException e) {
+            // 유효하지 않은 카테고리에 대한 예외 처리
+            throw new IllegalArgumentException("Invalid category: " + category);
+        }
+    }
+
+    /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
+    @Transactional(readOnly = true)
+    public ArticleDetailResponse getLatestArticleByCategory(String category) {
+        try {
+            ArticleCategory articleCategory = ArticleCategory.valueOf(category.toUpperCase());
+            Article latestArticle = articleRepository.findLatestArticleByCategoryOrNull(articleCategory);
+
+            if (latestArticle == null) {
+                throw new NotFoundException("No articles found for category: " + category);
+            }
+
+            return latestArticle.toDetailDTO();
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 카테고리에 대한 예외 처리
             throw new IllegalArgumentException("Invalid category: " + category);

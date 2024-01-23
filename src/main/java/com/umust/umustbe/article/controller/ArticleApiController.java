@@ -1,5 +1,6 @@
 package com.umust.umustbe.article.controller;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.service.ArticleApplicationService;
@@ -44,12 +45,46 @@ public class ArticleApiController {
         return ResponseEntity.ok().body(articles);
     }
 
-    @GetMapping("/category/{category}")
+    @Operation(summary = "카테고리별 게시글 목록 조회", description = "해당 카테고리의 게시글 목록을 조회한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ArticleListResponse.class)))),
+            @ApiResponse(responseCode = "204", description = "No Content"),
+            @ApiResponse(responseCode = "404", description = "No articles found for the specified category"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @GetMapping("/articles/{category}")
     public ResponseEntity<List<ArticleListResponse>> getArticlesByCategoryAndNotDeleted(
             @PathVariable String category
     ) {
         List<ArticleListResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category);
-        return ResponseEntity.ok(articles);
+        return ResponseEntity.ok().body(articles);
+    }
+
+    @Operation(summary = "해당 카테고리 최근 게시글 한개 조회", description = "해당 카테고리의 가장 최근 게시글 한개를 조회한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ArticleDetailResponse.class)))),
+            @ApiResponse(responseCode = "204", description = "No Content"),
+            @ApiResponse(responseCode = "404", description = "No articles found for the specified category"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @GetMapping("/articles/{category}/latest")
+    public ResponseEntity<ArticleDetailResponse> getLatestArticleByCategory(
+            @PathVariable String category
+    ) {
+        try {
+            ArticleDetailResponse latestArticle = articleApplicationService.getLatestArticleByCategory(category);
+            return ResponseEntity.ok().body(latestArticle);
+        } catch (IllegalArgumentException e) {
+            // 유효하지 않은 카테고리에 대한 예외 처리
+            return ResponseEntity.badRequest().build();
+        } catch (NotFoundException e) {
+            // 해당 카테고리에 글이 없을 경우
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)과 이미지 리스트(List<MultipartFile>) 이용하여 게시물을 신규 등록한다.")

@@ -35,4 +35,15 @@ ArticleRepositoryCustom {
                 .fetch();
     }
 
+    public Article findLatestArticleByCategoryOrNull(ArticleCategory category) {
+        QArticle article = QArticle.article;
+
+        return from(article)
+                .where(article.category.eq(category)
+                        .and(article.deletedAt.isNull()))
+                .orderBy(article.createdAt.desc())
+                .limit(1)
+                .fetchOne();
+    }
+
 }
