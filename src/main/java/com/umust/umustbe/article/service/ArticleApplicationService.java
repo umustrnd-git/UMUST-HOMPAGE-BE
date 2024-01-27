@@ -2,6 +2,7 @@ package com.umust.umustbe.article.service;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
+import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.image.repository.ImageRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
@@ -64,7 +65,7 @@ public class ArticleApplicationService {
             return latestArticle.toDetailDTO();
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 카테고리에 대한 예외 처리
-            throw new IllegalArgumentException("Invalid category: " + category);
+            throw new ArticleCategoryNotFoundException();
         }
     }
 
