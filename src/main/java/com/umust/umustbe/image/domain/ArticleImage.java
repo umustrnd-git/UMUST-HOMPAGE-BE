@@ -1,7 +1,7 @@
 package com.umust.umustbe.image.domain;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.common.BaseTimeEntity;
+import com.umust.umustbe.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

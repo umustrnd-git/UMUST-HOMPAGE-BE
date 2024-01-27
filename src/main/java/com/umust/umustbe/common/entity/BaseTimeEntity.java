@@ -1,4 +1,4 @@
-package com.umust.umustbe.common;
+package com.umust.umustbe.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
