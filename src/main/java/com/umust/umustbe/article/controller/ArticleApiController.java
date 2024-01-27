@@ -24,7 +24,7 @@ import java.util.List;
 @Tag(name = "Article", description = "Article 관련 API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/articles")
 public class ArticleApiController {
 
     private final ArticleApplicationService articleApplicationService;
@@ -38,7 +38,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @GetMapping("/articles")
+    @GetMapping
     public ResponseEntity<List<ArticleListResponse>> findAllArticles() {
         List<ArticleListResponse> articles = articleApplicationService.findAll();
 
@@ -54,7 +54,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @GetMapping("/articles/{category}")
+    @GetMapping("/{category}")
     public ResponseEntity<List<ArticleListResponse>> getArticlesByCategoryAndNotDeleted(
             @PathVariable String category
     ) {
@@ -71,7 +71,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @GetMapping("/articles/{category}/latest")
+    @GetMapping("/{category}/latest")
     public ResponseEntity<ArticleDetailResponse> getLatestArticleByCategory(
             @PathVariable String category
     ) {
@@ -95,7 +95,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @PostMapping("/articles")
+    @PostMapping
     public ResponseEntity<ArticleIdResponse> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
             @RequestPart(value = "file", required = false)List<MultipartFile> multipartFileList) throws IOException {
@@ -113,7 +113,7 @@ public class ArticleApiController {
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Article not found")
     })
-    @PatchMapping("/articles/{id}")
+    @PatchMapping("/{id}")
     // URL 경로에서 값 추출
     public ResponseEntity<ArticleDetailResponse> findArticle(@PathVariable Long id) {
         Article article = articleApplicationService.findByIdAndIncreaseViewCount(id);
@@ -131,7 +131,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @PutMapping("/articles/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<BaseResponseBody> updateArticle(@PathVariable Long id,
                                                           @Valid @RequestBody UpdateArticleRequest request) {
         articleApplicationService.update(id, request);
@@ -147,7 +147,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @DeleteMapping("/articles/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable Long id) {
         articleApplicationService.delete(id);
         return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 삭제 성공"));
