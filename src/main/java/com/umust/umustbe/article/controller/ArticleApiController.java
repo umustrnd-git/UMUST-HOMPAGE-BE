@@ -75,16 +75,8 @@ public class ArticleApiController {
     public ResponseEntity<ArticleDetailResponse> getLatestArticleByCategory(
             @PathVariable String category
     ) {
-        try {
-            ArticleDetailResponse latestArticle = articleApplicationService.getLatestArticleByCategory(category);
-            return ResponseEntity.ok().body(latestArticle);
-        } catch (IllegalArgumentException e) {
-            // 유효하지 않은 카테고리에 대한 예외 처리
-            return ResponseEntity.badRequest().build();
-        } catch (NotFoundException e) {
-            // 해당 카테고리에 글이 없을 경우
-            return ResponseEntity.notFound().build();
-        }
+        ArticleDetailResponse latestArticle = articleApplicationService.getLatestArticleByCategory(category);
+        return ResponseEntity.ok().body(latestArticle);
     }
 
     @Operation(summary = "게시글 등록", description = "제목(title)과 내용(content)과 이미지 리스트(List<MultipartFile>) 이용하여 게시물을 신규 등록한다.")
