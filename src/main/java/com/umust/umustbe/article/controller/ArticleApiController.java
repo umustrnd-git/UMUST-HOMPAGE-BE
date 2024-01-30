@@ -90,11 +90,11 @@ public class ArticleApiController {
     @PostMapping
     public ResponseEntity<ArticleIdResponse> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
-            @RequestPart(value = "file", required = false)List<MultipartFile> multipartFileList) throws IOException {
+            @RequestPart(value = "file", required = false)List<MultipartFile> multipartFiles) throws IOException {
 
         // 게시물 등록
         ArticleIdResponse articleIdResponse = articleApplicationService
-                .saveWithImage(request, multipartFileList);
+                .saveWithImage(request, multipartFiles);
 
         return ResponseEntity.status(200).body(articleIdResponse);
     }

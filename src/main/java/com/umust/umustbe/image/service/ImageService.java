@@ -26,6 +26,7 @@ public class ImageService {
                         .article(article)
                         .imgUrl(imgUrl)
                         .build();
+
                 imageRepository.save(img);
             }
         }

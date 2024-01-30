@@ -1,11 +1,12 @@
 package com.umust.umustbe.article.repository.querydsl;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.article.domain.QArticle;
 import com.umust.umustbe.article.type.ArticleCategory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
+
+import static com.umust.umustbe.article.domain.QArticle.article;
 
 public class ArticleRepositoryCustomImpl extends QuerydslRepositorySupport implements
 ArticleRepositoryCustom {
@@ -16,7 +17,6 @@ ArticleRepositoryCustom {
 
     @Override
     public List<Article> findAllNotDeleted() {
-        QArticle article = QArticle.article;
 
         List<Article> articleList = from(article)
                 .where(article.deletedAt.isNull())
@@ -27,7 +27,6 @@ ArticleRepositoryCustom {
 
     @Override
     public List<Article> findArticlesByCategoryAndNotDeleted(ArticleCategory category) {
-        QArticle article = QArticle.article;
 
         return from(article)
                 .where(article.category.eq(category)
@@ -36,7 +35,6 @@ ArticleRepositoryCustom {
     }
 
     public Article findLatestArticleByCategoryOrNull(ArticleCategory category) {
-        QArticle article = QArticle.article;
 
         return from(article)
                 .where(article.category.eq(category)
