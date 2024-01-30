@@ -2,18 +2,20 @@ package com.umust.umustbe.image.dto;
 
 import com.umust.umustbe.image.domain.ArticleImage;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class ImageResponse {
+@Builder
+public class ImageUrlResponse {
 
     private String imageUrl;
 
-    public static ImageResponse from(ArticleImage image) {
-        return new ImageResponse(image.getImgUrl());
+    public static ImageUrlResponse from(ArticleImage image) {
+        return new ImageUrlResponse(image.getImgUrl());
     }
 
 }

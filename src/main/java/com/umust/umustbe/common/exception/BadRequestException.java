@@ -1,6 +1,5 @@
 package com.umust.umustbe.common.exception;
 
-import com.umust.umustbe.common.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
 
 public class BadRequestException extends ApplicationException {

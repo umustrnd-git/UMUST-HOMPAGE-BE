@@ -3,9 +3,9 @@ package com.umust.umustbe.article.service;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
+import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.image.repository.ImageRepository;
-import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.image.service.ImageService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,6 @@ import org.webjars.NotFoundException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -71,6 +70,7 @@ public class ArticleApplicationService {
 
     /* POST) 게시글 생성 */
     @Transactional
+    @Deprecated
     public ArticleIdResponse save(AddArticleRequest request) {
         return articleFactory.save(request);
     }

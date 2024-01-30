@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.umust.umustbe.image.exception.FileUploadFailException;
+import com.umust.umustbe.image.exception.UnsupportedImageFileTypeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class S3Handler {
+
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -33,13 +36,13 @@ public class S3Handler {
     public String upload(MultipartFile uploadFile) throws IOException {
         String ext = getExt(uploadFile);
 
-        if (isImageFile(uploadFile)) {
+        try {
+            isImageFile(uploadFile);
             String fileName = UUID.randomUUID() + "." + ext;
-
             return putS3(uploadFile, fileName);
-        } else {
-            //todo 업로드 실패 시 exception 생성
-            throw new IOException();
+        } catch (IOException e) {
+            // todo 업로드 실패 시 exception 생성
+            throw new FileUploadFailException();
         }
     }
 
@@ -53,9 +56,7 @@ public class S3Handler {
         metadata.setContentType(uploadFile.getContentType());
         metadata.setContentLength(uploadFile.getSize());
 
-        amazonS3Client.putObject(new PutObjectRequest(
-                bucket, fileKey, uploadFile.getInputStream(), metadata)
-        );
+        amazonS3Client.putObject(new PutObjectRequest(bucket, fileKey, uploadFile.getInputStream(), metadata));
 
         // Amazon S3 클라이언트를 사용하여 업로드된 파일의 URL을 가져오기
         URL url = amazonS3Client.getUrl(bucket, fileKey);
@@ -87,10 +88,12 @@ public class S3Handler {
         return imgFile.getOriginalFilename().substring(pos + 1);
     }
 
-    public boolean isImageFile(MultipartFile file) {
-        if (!file.getContentType().contains("image"))
-            return false;
+    public void isImageFile(MultipartFile file) {
+        String ext = getExt(file);
 
-        return true;
+        if (file.getContentType() == null || !file.getContentType().startsWith("image")) {
+            throw new UnsupportedImageFileTypeException(ext);
+        }
+
     }
 }

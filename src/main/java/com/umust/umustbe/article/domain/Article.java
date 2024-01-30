@@ -4,7 +4,7 @@ import com.umust.umustbe.article.dto.ArticleDetailResponse;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.entity.BaseEntity;
 import com.umust.umustbe.image.domain.ArticleImage;
-import com.umust.umustbe.image.dto.ImageResponse;
+import com.umust.umustbe.image.dto.ImageUrlResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -69,7 +69,7 @@ public class Article extends BaseEntity {
                 this.getCreatedBy(),
                 this.getModifiedAt(),
                 this.getImages().stream()
-                        .map(ImageResponse::from).toList()
+                        .map(ImageUrlResponse::from).toList()
         );
     }
 
