@@ -43,7 +43,7 @@ public class ImageService {
             String uploadUrl = s3Handler.uploadImage(multipartFile);
 
             return FileUrlResponse.builder()
-                    .imageUrl(uploadUrl)
+                    .fileURL(uploadUrl)
                     .build();
         } catch (IOException e) {
             throw new FileUploadFailException();

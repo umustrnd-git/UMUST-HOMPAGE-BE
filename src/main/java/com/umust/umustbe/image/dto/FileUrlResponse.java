@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FileUrlResponse {
 
-    private String imageUrl;
+    private String fileURL;
 
     public static FileUrlResponse from(ArticleImage image) {
         return new FileUrlResponse(image.getImgUrl());
