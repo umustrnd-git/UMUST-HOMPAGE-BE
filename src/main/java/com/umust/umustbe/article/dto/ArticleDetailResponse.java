@@ -2,7 +2,7 @@ package com.umust.umustbe.article.dto;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.image.dto.FileUrlResponse;
+import com.umust.umustbe.file.dto.FileUrlResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
