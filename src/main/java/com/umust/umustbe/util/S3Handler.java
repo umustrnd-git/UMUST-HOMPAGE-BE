@@ -24,30 +24,28 @@ public class S3Handler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile uploadFile, String ext) throws IOException {
+    public String upload(MultipartFile uploadFile, String ext, String dirName) throws IOException {
         String fileName = UUID.randomUUID() + "." + ext;
 
-        return putS3(uploadFile, fileName);
+        return putS3(uploadFile, fileName, dirName);
     }
 
     public String upload(MultipartFile uploadFile) throws IOException {
         String ext = getExt(uploadFile);
+        String fileName = UUID.randomUUID() + "." + ext;
 
         if (isImageFile(uploadFile)) {
-            String fileName = UUID.randomUUID() + "." + ext;
-
-            return putS3(uploadFile, fileName);
+            return putS3(uploadFile, fileName, "images/");
         } else {
-            //todo 업로드 실패 시 exception 생성
-            throw new IOException();
+            return putS3(uploadFile, fileName, "files/");
         }
     }
 
 
-    // S3로 업로드
-    private String putS3(MultipartFile uploadFile, String fileName) throws IOException {
+    // S3로 이미지 업로드
+    private String putS3(MultipartFile uploadFile, String fileName, String dirName) throws IOException {
         String result = null;
-        String fileKey = "article/" + fileName;
+        String fileKey = dirName + fileName;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(uploadFile.getContentType());
