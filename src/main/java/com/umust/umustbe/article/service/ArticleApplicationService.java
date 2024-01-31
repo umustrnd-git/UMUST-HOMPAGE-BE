@@ -5,8 +5,8 @@ import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.image.repository.ImageRepository;
-import com.umust.umustbe.image.service.ImageService;
+import com.umust.umustbe.file.repository.ImageRepository;
+import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ArticleApplicationService {
 
     private final ArticleFactory articleFactory;
-    private final ImageService imageService;
+    private final FileService fileService;
     private final S3Handler s3Handler;
     private final ArticleRepository articleRepository;
     private final ImageRepository articleImageRepository;
@@ -81,7 +81,7 @@ public class ArticleApplicationService {
         Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
         // 이미지 업로드
-        imageService.uploadArticleImages(multipartFileList, savedArticle);
+        fileService.uploadArticleImages(multipartFileList, savedArticle);
 
         return articleId;
     }

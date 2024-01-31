@@ -1,4 +1,4 @@
-package com.umust.umustbe.image.domain;
+package com.umust.umustbe.file.domain;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.common.entity.BaseTimeEntity;

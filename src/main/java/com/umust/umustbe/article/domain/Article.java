@@ -3,8 +3,8 @@ package com.umust.umustbe.article.domain;
 import com.umust.umustbe.article.dto.ArticleDetailResponse;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.entity.BaseEntity;
-import com.umust.umustbe.image.domain.ArticleImage;
-import com.umust.umustbe.image.dto.FileUrlResponse;
+import com.umust.umustbe.file.domain.ArticleImage;
+import com.umust.umustbe.file.dto.FileUrlResponse;
 import jakarta.persistence.*;
 import lombok.*;
 

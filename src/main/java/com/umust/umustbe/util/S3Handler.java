@@ -4,8 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.umust.umustbe.image.exception.FileUploadFailException;
-import com.umust.umustbe.image.exception.UnsupportedImageFileTypeException;
+import com.umust.umustbe.file.exception.FileUploadFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,33 +26,34 @@ public class S3Handler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadImage(MultipartFile uploadFile, String ext) {
+    public String uploadFile(MultipartFile uploadFile, String dirName, String ext) {
         try {
             String fileName = UUID.randomUUID() + "." + ext;
-            return putS3(uploadFile, fileName);
+            return putS3(uploadFile, fileName, dirName);
         } catch (IOException e) {
             throw new FileUploadFailException();
         }
     }
 
-    public String uploadImage(MultipartFile uploadFile) throws IOException {
+    public String uploadFile(MultipartFile uploadFile){
         String ext = getExt(uploadFile);
+        String fileName = UUID.randomUUID() + "." + ext;
 
         try {
-            isImageFile(uploadFile);
-            String fileName = UUID.randomUUID() + "." + ext;
-            return putS3(uploadFile, fileName);
+            if (isImageFile(uploadFile)) {
+                return putS3(uploadFile, fileName, "images/");
+            } else {
+                return putS3(uploadFile, fileName, "files/");
+            }
         } catch (IOException e) {
-            // todo 업로드 실패 시 exception 생성
             throw new FileUploadFailException();
         }
     }
-
 
     // S3로 업로드
-    private String putS3(MultipartFile uploadFile, String fileName) throws IOException {
+    private String putS3(MultipartFile uploadFile, String fileName, String dirName) throws IOException {
         String result = null;
-        String fileKey = "article/" + fileName;
+        String fileKey = dirName + fileName;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(uploadFile.getContentType());
@@ -91,11 +91,9 @@ public class S3Handler {
         return imgFile.getOriginalFilename().substring(pos + 1);
     }
 
-    public void isImageFile(MultipartFile file) {
+    public boolean isImageFile(MultipartFile file) {
         String ext = getExt(file);
 
-        if (file.getContentType() == null || !file.getContentType().startsWith("image")) {
-            throw new UnsupportedImageFileTypeException(ext);
-        }
+        return file.getContentType() != null && file.getContentType().startsWith("image");
     }
 }

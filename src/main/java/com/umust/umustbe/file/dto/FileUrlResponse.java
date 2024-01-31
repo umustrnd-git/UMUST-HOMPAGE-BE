@@ -1,6 +1,6 @@
-package com.umust.umustbe.image.dto;
+package com.umust.umustbe.file.dto;
 
-import com.umust.umustbe.image.domain.ArticleImage;
+import com.umust.umustbe.file.domain.ArticleImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
