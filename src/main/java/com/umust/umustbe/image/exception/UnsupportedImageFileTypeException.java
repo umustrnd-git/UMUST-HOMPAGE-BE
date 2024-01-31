@@ -8,7 +8,7 @@ public class UnsupportedImageFileTypeException extends BadRequestException {
     }
 
     public UnsupportedImageFileTypeException(final String extension) {
-        super(String.format("[%s]", extension));
+        super(String.format(": 지원하는 이미지 확장자가 아닙니다. [%s]", extension));
     }
 
 }

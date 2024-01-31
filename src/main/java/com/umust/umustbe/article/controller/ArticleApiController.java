@@ -1,6 +1,5 @@
 package com.umust.umustbe.article.controller;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.service.ArticleApplicationService;
@@ -90,7 +89,7 @@ public class ArticleApiController {
     @PostMapping
     public ResponseEntity<ArticleIdResponse> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
-            @RequestPart(value = "file", required = false)List<MultipartFile> multipartFiles) throws IOException {
+            @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) throws IOException {
 
         // 게시물 등록
         ArticleIdResponse articleIdResponse = articleApplicationService

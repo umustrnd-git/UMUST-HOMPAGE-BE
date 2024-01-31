@@ -94,6 +94,5 @@ public class S3Handler {
         if (file.getContentType() == null || !file.getContentType().startsWith("image")) {
             throw new UnsupportedImageFileTypeException(ext);
         }
-
     }
 }
