@@ -27,13 +27,16 @@ public class S3Handler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile uploadFile, String ext) throws IOException {
-        String fileName = UUID.randomUUID() + "." + ext;
-
-        return putS3(uploadFile, fileName);
+    public String uploadImage(MultipartFile uploadFile, String ext) {
+        try {
+            String fileName = UUID.randomUUID() + "." + ext;
+            return putS3(uploadFile, fileName);
+        } catch (IOException e) {
+            throw new FileUploadFailException();
+        }
     }
 
-    public String upload(MultipartFile uploadFile) throws IOException {
+    public String uploadImage(MultipartFile uploadFile) throws IOException {
         String ext = getExt(uploadFile);
 
         try {

@@ -2,7 +2,7 @@ package com.umust.umustbe.image.service;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.image.domain.ArticleImage;
-import com.umust.umustbe.image.dto.ImageUrlResponse;
+import com.umust.umustbe.image.dto.FileUrlResponse;
 import com.umust.umustbe.image.exception.FileUploadFailException;
 import com.umust.umustbe.image.repository.ImageRepository;
 import com.umust.umustbe.util.S3Handler;
@@ -24,7 +24,7 @@ public class ImageService {
         try {
             if (multipartFileList != null) {
                 for (MultipartFile file : multipartFileList) {
-                    String imgUrl = s3Handler.upload(file);
+                    String imgUrl = s3Handler.uploadImage(file);
                     ArticleImage img = ArticleImage.builder()
                             .article(article)
                             .imgUrl(imgUrl)
@@ -36,16 +36,33 @@ public class ImageService {
         } catch (IOException e) {
             throw new FileUploadFailException();
         }
-
     }
 
-    public ImageUrlResponse uploadImage(MultipartFile multipartFile) {
+    public FileUrlResponse uploadImage(MultipartFile multipartFile) {
         try {
-            String uploadUrl = s3Handler.upload(multipartFile);
+            String uploadUrl = s3Handler.uploadImage(multipartFile);
 
-            return ImageUrlResponse.builder()
+            return FileUrlResponse.builder()
                     .imageUrl(uploadUrl)
                     .build();
+        } catch (IOException e) {
+            throw new FileUploadFailException();
+        }
+    }
+
+    public FileUrlResponse uploadFile(List<MultipartFile> multipartFileList, Article article) {
+        try {
+            if (multipartFileList != null) {
+                for (MultipartFile file : multipartFileList) {
+                    String imgUrl = s3Handler.uploadImage(file);
+                    ArticleImage img = ArticleImage.builder()
+                            .article(article)
+                            .imgUrl(imgUrl)
+                            .build();
+
+                    imageRepository.save(img);
+                }
+            }
         } catch (IOException e) {
             throw new FileUploadFailException();
         }

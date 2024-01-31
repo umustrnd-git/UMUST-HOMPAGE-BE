@@ -1,7 +1,7 @@
 package com.umust.umustbe.image.controller;
 
 import com.umust.umustbe.article.dto.ArticleDetailResponse;
-import com.umust.umustbe.image.dto.ImageUrlResponse;
+import com.umust.umustbe.image.dto.FileUrlResponse;
 import com.umust.umustbe.image.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -37,7 +37,7 @@ public class ImageController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @PostMapping
-    public ResponseEntity<ImageUrlResponse> uploadImages(
+    public ResponseEntity<FileUrlResponse> uploadImages(
             @RequestPart(value = "file", required = true) MultipartFile uploadImageFile) {
         return ResponseEntity.ok(imageService.uploadImage(uploadImageFile));
 

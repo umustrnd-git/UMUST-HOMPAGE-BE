@@ -2,7 +2,7 @@ package com.umust.umustbe.article.dto;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.image.dto.ImageUrlResponse;
+import com.umust.umustbe.image.dto.FileUrlResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -17,11 +17,11 @@ public record ArticleDetailResponse(Long id,
                                     LocalDateTime createdAt,
                                     String createdBy,
                                     LocalDateTime modifiedAt,
-                                    List<ImageUrlResponse> images){
+                                    List<FileUrlResponse> images){
 
     public static ArticleDetailResponse from(Article article) {
-        List<ImageUrlResponse> imagesResponse = article.getImages().stream()
-                .map(ImageUrlResponse::from)
+        List<FileUrlResponse> imagesResponse = article.getImages().stream()
+                .map(FileUrlResponse::from)
                 .toList();
 
         return new ArticleDetailResponse(

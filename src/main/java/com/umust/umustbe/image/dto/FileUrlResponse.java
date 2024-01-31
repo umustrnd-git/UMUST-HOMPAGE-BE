@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class ImageUrlResponse {
+public class FileUrlResponse {
 
     private String imageUrl;
 
-    public static ImageUrlResponse from(ArticleImage image) {
-        return new ImageUrlResponse(image.getImgUrl());
+    public static FileUrlResponse from(ArticleImage image) {
+        return new FileUrlResponse(image.getImgUrl());
     }
 
 }
