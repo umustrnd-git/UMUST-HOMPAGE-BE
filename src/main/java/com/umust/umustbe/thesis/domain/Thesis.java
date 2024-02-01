@@ -1,6 +1,6 @@
 package com.umust.umustbe.thesis.domain;
 
-import com.umust.umustbe.thesis.dto.ThesisDto;
+import com.umust.umustbe.thesis.dto.ThesisDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -46,7 +46,7 @@ public class Thesis {
         this.link = link;
     }
 
-    public Thesis update(ThesisDto thesisDto) {
+    public Thesis update(ThesisDTO thesisDto) {
         this.title = thesisDto.getTitle();
         this.date = thesisDto.getDate();
         this.journal = thesisDto.getJournal();
