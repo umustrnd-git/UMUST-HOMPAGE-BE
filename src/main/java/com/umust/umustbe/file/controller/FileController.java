@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "File", description = "File 관련 API 입니다.")
+@Tag(name = "Images", description = "Images 관련 API 입니다.")
 @RequiredArgsConstructor
-@RequestMapping("/api/files")
+@RequestMapping("/api/images")
 @RestController
 public class FileController {
 
     private final FileService fileService;
 
-    @Operation(summary = "파일 1개 업로드", description = "1개의 파일을 s3에 업로드하고 fileURL을 반환받는다.")
+    @Operation(summary = "이미지 1개 업로드", description = "1개의 파일을 s3에 업로드하고 imgURL을 반환받는다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = FileUrlResponse.class)))),
             @ApiResponse(responseCode = "7001", description = "파일 업로드에 실패했습니다."),
