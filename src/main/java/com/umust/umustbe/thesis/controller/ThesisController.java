@@ -1,7 +1,8 @@
 package com.umust.umustbe.thesis.controller;
 
 import com.umust.umustbe.thesis.domain.Thesis;
-import com.umust.umustbe.thesis.dto.ThesisDto;
+import com.umust.umustbe.thesis.dto.ThesisDTO;
+import com.umust.umustbe.thesis.dto.ThesisIdResponse;
 import com.umust.umustbe.thesis.service.ThesisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +20,17 @@ public class ThesisController {
     private final ThesisService thesisService;
 
     @GetMapping("/thesis")
-    public ResponseEntity<List<ThesisDto>> getThesesByOrderByDate() {
+    public ResponseEntity<List<ThesisDTO>> getThesesByOrderByDate() {
         List<Thesis> theses = thesisService.getThesesByOrderByDate();
-        List<ThesisDto> thesesDto = theses
-                .stream()
-                .map(ThesisDto::new)
+        List<ThesisDTO> thesesDto = theses.stream()
+                .map(ThesisDTO::from)
                 .toList();
         return ResponseEntity.ok().body(thesesDto);
     }
 
     @PostMapping("/thesis")
-    public ResponseEntity addArticle(ThesisDto thesisDto) {
+    public ResponseEntity<ThesisIdResponse> addArticle(ThesisDTO thesisDto) {
         return ResponseEntity.ok(thesisService.createThesis(thesisDto));
     }
-
 
 }

@@ -1,9 +1,9 @@
 package com.umust.umustbe.thesis.service;
 
 import com.umust.umustbe.thesis.domain.Thesis;
-import com.umust.umustbe.thesis.dto.ThesisDto;
+import com.umust.umustbe.thesis.dto.ThesisDTO;
+import com.umust.umustbe.thesis.dto.ThesisIdResponse;
 import com.umust.umustbe.thesis.repository.ThesisRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,30 +15,26 @@ import java.util.List;
 public class ThesisService {
     private final ThesisRepository thesisRepository;
 
-    public Long createThesis(ThesisDto thesisDto) {
+    @Transactional
+    public ThesisIdResponse createThesis(ThesisDTO thesisDto) {
         Thesis thesis = thesisDto.toEntity();
-        Thesis newThesis = thesisRepository.save(thesis);
-        return newThesis.getId();
+        Thesis savedThesis = thesisRepository.save(thesis);
+        return new ThesisIdResponse(savedThesis);
     }
 
+    @Transactional(readOnly = true)
     public List<Thesis> getThesesByOrderByDate() {
         return thesisRepository.findAllByOrderByDateDesc();
     }
 
+    @Transactional(readOnly = true)
     public Thesis getThesisById(Long id) {
         return thesisRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException());
     }
 
-    public ThesisDto getThesisDto(Long thesisId) {
-        Thesis thesis = thesisRepository.findById(thesisId)
-                .orElseThrow(() -> new EntityNotFoundException("Thesis not found with ID: " + thesisId));
-
-        return ThesisDto.from(thesis);
-    }
-
     @Transactional
-    public Thesis update(long id,ThesisDto thesisDto) {
+    public Thesis update(long id, ThesisDTO thesisDto) {
         Thesis thesis = thesisRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Thesis not found with Id : " + id));
 
@@ -47,6 +43,7 @@ public class ThesisService {
         return thesis;
     }
 
+    @Transactional
     public void delete(long id) {
         Thesis thesis = thesisRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found : " + id));

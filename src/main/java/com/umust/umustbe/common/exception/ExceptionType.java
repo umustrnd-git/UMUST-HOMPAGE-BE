@@ -5,6 +5,7 @@ import com.umust.umustbe.article.exception.ArticleContentNullException;
 import com.umust.umustbe.article.exception.ArticleNotFoundException;
 import com.umust.umustbe.article.exception.ArticleTitleNullOrEmptyException;
 import com.umust.umustbe.file.exception.FileUploadFailException;
+import com.umust.umustbe.thesis.exception.ThesisDateFormatInvalidException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,6 +15,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 public enum ExceptionType {
+
+    /* Thesis Exception */
+    THESIS_INVALID_DATE_FORMAT_EXCEPTION("2001", "적절한 날짜 형식이 아닙니다: 'MMM-YYYY' ", ThesisDateFormatInvalidException.class),
+
 
     /* Article Exception */
     ARTICLE_NOT_FOUND_EXCEPTION("3001", "게시글이 존재하지 않습니다.", ArticleNotFoundException.class),
