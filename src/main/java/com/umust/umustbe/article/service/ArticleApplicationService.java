@@ -5,7 +5,7 @@ import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.file.repository.ImageRepository;
+import com.umust.umustbe.file.repository.fileRepository;
 import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ArticleApplicationService {
     private final FileService fileService;
     private final S3Handler s3Handler;
     private final ArticleRepository articleRepository;
-    private final ImageRepository articleImageRepository;
+    private final fileRepository articleFileRepository;
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
@@ -76,12 +76,14 @@ public class ArticleApplicationService {
     }
 
     @Transactional
-    public ArticleIdResponse saveWithImage(AddArticleRequest request, List<MultipartFile> multipartFileList) throws IOException {
+    public ArticleIdResponse saveWithFiles(AddArticleRequest request, List<MultipartFile> multipartFiles) throws IOException {
         ArticleIdResponse articleId = articleFactory.save(request);
         Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
-        // 이미지 업로드
-        fileService.uploadArticleImages(multipartFileList, savedArticle);
+        // multipartFiles가 비어있지 않은 경우 s3 업로드
+        if (!multipartFiles.isEmpty()) {
+            fileService.uploadArticleFiles(multipartFiles, savedArticle);
+        }
 
         return articleId;
     }

@@ -19,7 +19,7 @@ VALUES
 ('EVENT', 'Event 1', '설추석 특별수송기간 주말 연휴 연휴(대체휴일 포함)연휴(대체휴일 포함)', '2023-01-01 12:00:00', '2023-01-01 12:30:00', 'user1', 'user1');
 
 -- article_image 테이블에 데이터 삽입
-INSERT INTO article_image (article_id, created_date, img_url)
+INSERT INTO article_file (article_id, created_date, file_url)
 VALUES
 (1, '2023-01-01 12:00:00', 'https://4.bp.blogspot.com/-ja7NuLDxx5w/W30QHvOYp7I/AAAAAAAAcgc/4Xi97gr1uDwhstq1Fo64LLwJPdDNMNE2QCLcBGAs/s0/15.png'),
 (1, '2023-01-01 12:00:00', 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965402602.jpg'),

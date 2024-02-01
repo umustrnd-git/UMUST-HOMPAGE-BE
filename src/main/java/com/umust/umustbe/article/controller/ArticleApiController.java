@@ -93,7 +93,7 @@ public class ArticleApiController {
 
         // 게시물 등록
         ArticleIdResponse articleIdResponse = articleApplicationService
-                .saveWithImage(request, multipartFiles);
+                .saveWithFiles(request, multipartFiles);
 
         return ResponseEntity.status(200).body(articleIdResponse);
     }

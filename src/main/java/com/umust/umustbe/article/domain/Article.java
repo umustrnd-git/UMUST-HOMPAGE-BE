@@ -3,7 +3,7 @@ package com.umust.umustbe.article.domain;
 import com.umust.umustbe.article.dto.ArticleDetailResponse;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.entity.BaseEntity;
-import com.umust.umustbe.file.domain.ArticleImage;
+import com.umust.umustbe.file.domain.ArticleFile;
 import com.umust.umustbe.file.dto.FileUrlResponse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,7 +35,7 @@ public class Article extends BaseEntity {
     private Integer view;  // 조회수
 
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ArticleImage> images;
+    private List<ArticleFile> files;
 
     @Builder  // 빌더 패턴으로 객체 생성
     public Article(String title, String content, Integer view, String category) {
@@ -68,7 +68,7 @@ public class Article extends BaseEntity {
                 this.getCreatedAt(),
                 this.getCreatedBy(),
                 this.getModifiedAt(),
-                this.getImages().stream()
+                this.getFiles().stream()
                         .map(FileUrlResponse::from).toList()
         );
     }

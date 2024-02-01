@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ArticleImage extends BaseTimeEntity {
+public class ArticleFile extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class ArticleImage extends BaseTimeEntity {
     @JoinColumn(name = "article_id", nullable = false) //
     private Article article;
 
-    @Column(name = "img_url", nullable = false)
-    private String imgUrl;
+    @Column(name = "file_url", nullable = false)
+    private String fileUrl;
 
 }

@@ -20,7 +20,7 @@ public record ArticleDetailResponse(Long id,
                                     List<FileUrlResponse> images){
 
     public static ArticleDetailResponse from(Article article) {
-        List<FileUrlResponse> imagesResponse = article.getImages().stream()
+        List<FileUrlResponse> imagesResponse = article.getFiles().stream()
                 .map(FileUrlResponse::from)
                 .toList();
 
