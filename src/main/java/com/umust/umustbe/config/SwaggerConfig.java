@@ -38,12 +38,12 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi getImgApi() {
+    public GroupedOpenApi getFileApi() {
         // "/v1/**" 경로에 매칭되는 API를 그룹화하여 문서화
-        String[] paths = {"/api/images/**"};
+        String[] paths = {"/api/files/**"};
 
         return GroupedOpenApi.builder()
-                .group("Images")  // 그룹 이름을 설정
+                .group("Files")  // 그룹 이름을 설정
                 .pathsToMatch(paths)     // 그룹에 속하는 경로 패턴을 지정
                 .build();
     }
