@@ -30,7 +30,7 @@ public class ThesisService {
     @Transactional(readOnly = true)
     public Thesis getThesisById(Long id) {
         return thesisRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new IllegalArgumentException("Thesis not found with Id : " + id));
     }
 
     @Transactional

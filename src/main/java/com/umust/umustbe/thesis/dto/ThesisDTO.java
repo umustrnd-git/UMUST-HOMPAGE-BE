@@ -1,9 +1,11 @@
 package com.umust.umustbe.thesis.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.umust.umustbe.thesis.domain.Thesis;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
 @Getter
 public class ThesisDTO {
     private String title;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String journal;
     private String authors;
