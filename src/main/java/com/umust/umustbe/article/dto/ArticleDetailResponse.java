@@ -2,7 +2,6 @@ package com.umust.umustbe.article.dto;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.file.dto.FileDetailResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -17,11 +16,11 @@ public record ArticleDetailResponse(Long id,
                                     LocalDateTime createdAt,
                                     String createdBy,
                                     LocalDateTime modifiedAt,
-                                    List<FileDetailResponse> files){
+                                    List<ArticleFileDetailResponse> files){
 
     public static ArticleDetailResponse from(Article article) {
-        List<FileDetailResponse> fileUrlResponses = article.getFiles().stream()
-                .map(FileDetailResponse::from)
+        List<ArticleFileDetailResponse> fileUrlResponses = article.getFiles().stream()
+                .map(ArticleFileDetailResponse::from)
                 .toList();
 
         return new ArticleDetailResponse(

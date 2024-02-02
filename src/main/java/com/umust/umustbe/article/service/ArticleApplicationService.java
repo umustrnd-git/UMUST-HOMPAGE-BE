@@ -5,7 +5,6 @@ import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.file.repository.fileRepository;
 import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class ArticleApplicationService {
     private final FileService fileService;
     private final S3Handler s3Handler;
     private final ArticleRepository articleRepository;
-    private final fileRepository articleFileRepository;
+    private final com.umust.umustbe.article.repository.articleFileRepository articleFileRepository;
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)

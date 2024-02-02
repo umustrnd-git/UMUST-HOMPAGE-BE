@@ -1,6 +1,6 @@
 package com.umust.umustbe.file.dto;
 
-import com.umust.umustbe.file.domain.ArticleFile;
+import com.umust.umustbe.article.domain.ArticleFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

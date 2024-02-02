@@ -1,6 +1,5 @@
-package com.umust.umustbe.file.domain;
+package com.umust.umustbe.article.domain;
 
-import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

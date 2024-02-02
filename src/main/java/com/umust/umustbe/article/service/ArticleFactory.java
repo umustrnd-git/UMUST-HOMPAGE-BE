@@ -3,7 +3,6 @@ package com.umust.umustbe.article.service;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.ArticleIdResponse;
-import com.umust.umustbe.article.dto.ArticleSaveReq;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
