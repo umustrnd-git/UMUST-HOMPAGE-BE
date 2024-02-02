@@ -17,7 +17,7 @@ public class ArticleFile extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "article_img_id")
+    @Column(name = "article_file_id")
     private Long id;
 
     @ManyToOne

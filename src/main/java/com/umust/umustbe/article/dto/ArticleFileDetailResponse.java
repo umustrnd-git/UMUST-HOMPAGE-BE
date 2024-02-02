@@ -1,6 +1,6 @@
 package com.umust.umustbe.file.dto;
 
-import com.umust.umustbe.file.domain.ArticleFile;
+import com.umust.umustbe.article.domain.ArticleFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,14 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class FileUrlResponse {
+public class FileDetailResponse {
 
+    private Long fildId;
     private String fileURL;
 
-    public static FileUrlResponse from(ArticleFile image) {
-        return FileUrlResponse.builder()
+    public static FileDetailResponse from(ArticleFile image) {
+        return FileDetailResponse.builder()
+                .fildId(image.getId())
                 .fileURL(image.getFileUrl())
                 .build();
     }
-
 }

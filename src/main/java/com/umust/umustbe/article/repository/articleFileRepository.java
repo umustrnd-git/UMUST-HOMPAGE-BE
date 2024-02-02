@@ -1,7 +1,7 @@
 package com.umust.umustbe.file.repository;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.file.domain.ArticleFile;
+import com.umust.umustbe.article.domain.ArticleFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
