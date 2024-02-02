@@ -46,7 +46,7 @@ public class ThesisService {
     @Transactional
     public void delete(long id) {
         Thesis thesis = thesisRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not found : " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Thesis not found with Id : " + id));
 
         thesisRepository.delete(thesis);
     }
