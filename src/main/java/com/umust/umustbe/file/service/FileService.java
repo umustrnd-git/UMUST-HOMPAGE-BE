@@ -1,8 +1,9 @@
 package com.umust.umustbe.file.service;
 
 import com.umust.umustbe.article.domain.Article;
-import com.umust.umustbe.file.domain.ArticleFile;
+import com.umust.umustbe.article.domain.ArticleFile;
 import com.umust.umustbe.file.dto.FileUrlResponse;
+import com.umust.umustbe.article.repository.ArticleFileRepository;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 public class FileService {
 
-    private final com.umust.umustbe.file.repository.fileRepository fileRepository;
+    private final ArticleFileRepository articleFileRepository;
     private final S3Handler s3Handler;
 
     public void uploadArticleFiles(List<MultipartFile> multipartFileList, Article article) {
@@ -26,7 +27,7 @@ public class FileService {
                         .fileUrl(imgUrl)
                         .build();
 
-                fileRepository.save(articleFile);
+                articleFileRepository.save(articleFile);
             }
         }
     }

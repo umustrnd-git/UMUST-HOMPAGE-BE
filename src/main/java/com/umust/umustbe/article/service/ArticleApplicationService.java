@@ -3,9 +3,10 @@ package com.umust.umustbe.article.service;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
+import com.umust.umustbe.article.exception.ArticleNotFoundException;
+import com.umust.umustbe.article.repository.ArticleFileRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.file.repository.fileRepository;
 import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ArticleApplicationService {
     private final FileService fileService;
     private final S3Handler s3Handler;
     private final ArticleRepository articleRepository;
-    private final fileRepository articleFileRepository;
+    private final ArticleFileRepository articleFileRepository;
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
@@ -46,7 +47,7 @@ public class ArticleApplicationService {
                     .map(ArticleListResponse::from).toList();
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 카테고리에 대한 예외 처리
-            throw new IllegalArgumentException("Invalid category: " + category);
+            throw new ArticleCategoryNotFoundException();
         }
     }
 
@@ -88,13 +89,13 @@ public class ArticleApplicationService {
         return articleId;
     }
 
-    /* PUT) 게시글 상세 조회 및 조회수 1 증가 */
+    /* PATCH) 게시글 상세 조회 및 조회수 1 증가 */
     @Transactional
-    public Article findByIdAndIncreaseViewCount(long id) {
+    public Article findByIdAndIncreaseViewCount(Long id) {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
-            throw new NotFoundException("Article with id " + id + " not found");
+            throw new ArticleNotFoundException(id);
         }
 
         article.increaseView();
@@ -108,7 +109,7 @@ public class ArticleApplicationService {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
-            throw new NotFoundException("Article with id " + id + " not found");
+            throw new ArticleNotFoundException(id);
         }
 
         article.update(request.getTitle(), request.getContent());
@@ -118,6 +119,9 @@ public class ArticleApplicationService {
     @Transactional
     public void delete(long id) {
         Article article = articleRepository.findByIdOrNull(id);
+        if (article == null) {
+            throw new ArticleNotFoundException(id);
+        }
         article.delete();
     }
 

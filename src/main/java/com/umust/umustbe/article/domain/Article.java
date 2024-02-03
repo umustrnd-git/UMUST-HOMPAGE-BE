@@ -3,10 +3,12 @@ package com.umust.umustbe.article.domain;
 import com.umust.umustbe.article.dto.ArticleDetailResponse;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.entity.BaseEntity;
-import com.umust.umustbe.file.domain.ArticleFile;
-import com.umust.umustbe.file.dto.FileUrlResponse;
+import com.umust.umustbe.article.dto.ArticleFileDetailResponse;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,7 +71,7 @@ public class Article extends BaseEntity {
                 this.getCreatedBy(),
                 this.getModifiedAt(),
                 this.getFiles().stream()
-                        .map(FileUrlResponse::from).toList()
+                        .map(ArticleFileDetailResponse::from).toList()
         );
     }
 
