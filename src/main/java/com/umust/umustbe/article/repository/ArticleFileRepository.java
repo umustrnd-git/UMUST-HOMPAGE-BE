@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface articleFileRepository extends JpaRepository<ArticleFile, Long> {
+public interface ArticleFileRepository extends JpaRepository<ArticleFile, Long> {
     void deleteByArticle(Article article);
 
     List<ArticleFile> findByArticle(Article article);
