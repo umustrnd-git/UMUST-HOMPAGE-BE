@@ -64,6 +64,7 @@ class ArticleApplicationServiceTest {
         verify(mockArticle, times(1)).increaseView();
     }
 
+    @DisplayName("게시글을 업데이트한다")
     @Test
     public void testUpdateArticle() {
         // Given
@@ -83,6 +84,7 @@ class ArticleApplicationServiceTest {
         verify(articleRepository, times(1)).findByIdOrNull(articleId);
     }
 
+    @DisplayName("게시글을 업데이트에 실패한다")
     @Test
     public void testUpdateArticleNotFound() {
         // Given
@@ -96,6 +98,7 @@ class ArticleApplicationServiceTest {
         verify(articleRepository, times(1)).findByIdOrNull(nonExistentArticleId);
     }
 
+    @DisplayName("게시글을 삭제한다")
     @Test
     public void testDeleteArticle() {
         // Given
