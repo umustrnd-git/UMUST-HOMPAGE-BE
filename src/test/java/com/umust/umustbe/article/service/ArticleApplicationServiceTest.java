@@ -67,7 +67,7 @@ class ArticleApplicationServiceTest {
 
     @DisplayName("게시글을 업데이트한다")
     @Test
-    public void testUpdateArticle() {
+    public void givenExistingArticle_whenUpdate_thenTitleAndContentUpdated() {
         // Given
         long articleId = 1L;
         UpdateArticleRequest updateRequest = new UpdateArticleRequest("Updated Title", "Updated Content");
@@ -87,7 +87,7 @@ class ArticleApplicationServiceTest {
 
     @DisplayName("게시글을 업데이트에 실패한다")
     @Test
-    public void testUpdateArticleNotFound() {
+    public void givenNonExistentArticle_whenUpdate_thenNotFoundExceptionThrown() {
         // Given
         long nonExistentArticleId = 99L;
         UpdateArticleRequest updateRequest = new UpdateArticleRequest("Updated Title", "Updated Content");
@@ -101,7 +101,7 @@ class ArticleApplicationServiceTest {
 
     @DisplayName("게시글을 삭제한다")
     @Test
-    public void testDeleteArticle() {
+    public void givenExistingArticle_whenDelete_thenArticleIsDeleted() {
         // Given
         long articleId = 1L;
         Article existingArticle = createArticle();
@@ -113,6 +113,19 @@ class ArticleApplicationServiceTest {
         // Then
         assertThat(existingArticle.getDeletedAt()).isNotNull();
         verify(articleRepository, times(1)).findByIdOrNull(articleId);
+    }
+
+    @DisplayName("게시글을 삭제에 실패한다")
+    @Test
+    public void givenNonExistentArticle_whenDelete_thenNotFoundExceptionThrown() {
+        // Given
+        long nonExistentArticleId = 99L;
+        when(articleRepository.findByIdOrNull(nonExistentArticleId)).thenReturn(null);
+
+        // When and Then
+        assertThrows(ArticleNotFoundException.class,
+                () -> articleApplicationService.delete(nonExistentArticleId));
+        verify(articleRepository, times(1)).findByIdOrNull(nonExistentArticleId);
     }
 
 
