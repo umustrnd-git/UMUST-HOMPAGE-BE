@@ -3,6 +3,7 @@ package com.umust.umustbe.article.service;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.*;
 import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
+import com.umust.umustbe.article.exception.ArticleNotFoundException;
 import com.umust.umustbe.article.repository.ArticleFileRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
@@ -94,7 +95,7 @@ public class ArticleApplicationService {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
-            throw new NotFoundException("Article with id " + id + " not found");
+            throw new ArticleNotFoundException(id);
         }
 
         article.increaseView();
@@ -108,7 +109,7 @@ public class ArticleApplicationService {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
-            throw new com.umust.umustbe.common.exception.NotFoundException("Article with id " + id + " not found");
+            throw new ArticleNotFoundException(id);
         }
 
         article.update(request.getTitle(), request.getContent());
@@ -118,6 +119,9 @@ public class ArticleApplicationService {
     @Transactional
     public void delete(long id) {
         Article article = articleRepository.findByIdOrNull(id);
+        if (article == null) {
+            throw new ArticleNotFoundException(id);
+        }
         article.delete();
     }
 

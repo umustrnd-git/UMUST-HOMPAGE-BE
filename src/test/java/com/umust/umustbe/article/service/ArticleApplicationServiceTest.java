@@ -3,10 +3,10 @@ package com.umust.umustbe.article.service;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.dto.AddArticleRequest;
 import com.umust.umustbe.article.dto.UpdateArticleRequest;
+import com.umust.umustbe.article.exception.ArticleNotFoundException;
 import com.umust.umustbe.article.repository.ArticleFileRepository;
 import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
-import com.umust.umustbe.common.exception.NotFoundException;
 import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -93,7 +94,7 @@ class ArticleApplicationServiceTest {
         when(articleRepository.findByIdOrNull(nonExistentArticleId)).thenReturn(null);
 
         // When and Then
-        assertThrows(NotFoundException.class,
+        assertThrows(ArticleNotFoundException.class,
                 () -> articleApplicationService.update(nonExistentArticleId, updateRequest));
         verify(articleRepository, times(1)).findByIdOrNull(nonExistentArticleId);
     }
@@ -110,7 +111,7 @@ class ArticleApplicationServiceTest {
         articleApplicationService.delete(articleId);
 
         // Then
-//        assertTrue(existingArticle.isDeleted());
+        assertThat(existingArticle.getDeletedAt()).isNotNull();
         verify(articleRepository, times(1)).findByIdOrNull(articleId);
     }
 
