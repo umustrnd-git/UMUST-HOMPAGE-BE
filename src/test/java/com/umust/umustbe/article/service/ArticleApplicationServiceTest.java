@@ -65,6 +65,29 @@ class ArticleApplicationServiceTest {
         verify(mockArticle, times(1)).increaseView();
     }
 
+    @DisplayName("게시글을 조회하면, 조회수가 1 추가된 게시글을 반환한다2.")
+    @Test
+    void givenArticleId_whenSearchingArticle() {
+        // Given
+        Long articleId = 1L;
+        Article mockArticle = Mockito.mock(Article.class);
+
+//        Mockito.when(mockArticle.getId()).thenReturn(articleId);
+        Mockito.when(mockArticle.getTitle()).thenReturn("제목");
+        Mockito.when(mockArticle.getContent()).thenReturn("내용");
+
+//        Article mockArticle = createArticle();
+        when(articleRepository.findByIdOrNull(1L)).thenReturn(mockArticle);
+
+        // When
+        Article article = articleApplicationService.findByIdAndIncreaseViewCount(articleId);
+
+        // Then
+        assertThat(article).isEqualTo(1L);
+        assertThat(article.getTitle()).isEqualTo("제목");
+        assertThat(article.getContent()).isEqualTo("내용");
+    }
+
     @DisplayName("게시글을 업데이트한다")
     @Test
     public void givenExistingArticle_whenUpdate_thenTitleAndContentUpdated() {
