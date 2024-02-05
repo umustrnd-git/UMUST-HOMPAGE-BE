@@ -82,7 +82,7 @@ public class ArticleApplicationService {
         Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
         // multipartFiles가 비어있지 않은 경우 s3 업로드
-        if (!multipartFiles.isEmpty()) {
+        if (multipartFiles != null && !multipartFiles.isEmpty()) {
             fileService.uploadArticleFiles(multipartFiles, savedArticle);
         }
 
