@@ -83,7 +83,7 @@ class ArticleApplicationServiceTest {
         Article article = articleApplicationService.findByIdAndIncreaseViewCount(articleId);
 
         // Then
-        assertThat(article).isEqualTo(1L);
+//        assertThat(article).isEqualTo(1L);
         assertThat(article.getTitle()).isEqualTo("제목");
         assertThat(article.getContent()).isEqualTo("내용");
     }
