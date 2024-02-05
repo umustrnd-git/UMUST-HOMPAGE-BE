@@ -20,6 +20,7 @@ ArticleRepositoryCustom {
 
         List<Article> articleList = from(article)
                 .where(article.deletedAt.isNull())
+                .orderBy(article.id.desc())
                 .fetch();
 
         return articleList;
@@ -31,6 +32,7 @@ ArticleRepositoryCustom {
         return from(article)
                 .where(article.category.eq(category)
                         .and(article.deletedAt.isNull()))
+                .orderBy(article.id.desc())
                 .fetch();
     }
 
