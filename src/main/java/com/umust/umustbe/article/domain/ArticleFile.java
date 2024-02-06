@@ -23,6 +23,9 @@ public class ArticleFile extends BaseTimeEntity {
     @JoinColumn(name = "article_id", nullable = false) //
     private Article article;
 
+    @Column(name = "original_file_name")
+    private String originalFileName;
+
     @Column(name = "file_url", nullable = false)
     private String fileUrl;
 

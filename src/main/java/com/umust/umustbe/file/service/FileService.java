@@ -24,6 +24,7 @@ public class FileService {
                 String imgUrl = s3Handler.uploadFile(file);
                 ArticleFile articleFile = ArticleFile.builder()
                         .article(article)
+                        .originalFileName(file.getOriginalFilename())
                         .fileUrl(imgUrl)
                         .build();
 
