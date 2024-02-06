@@ -39,12 +39,12 @@ public class ArticleApplicationService {
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
-    public List<ArticleListResponse> getArticlesByCategoryAndNotDeleted(String category) {
+    public List<ArticleDetailResponse> getArticlesByCategoryAndNotDeleted(String category) {
         try {
             ArticleCategory articleCategory = ArticleCategory.valueOf(category.toUpperCase());
             List<Article> articles = articleRepository.findArticlesByCategoryAndNotDeleted(articleCategory);
             return articles.stream()
-                    .map(ArticleListResponse::from).toList();
+                    .map(ArticleDetailResponse::from).toList();
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 카테고리에 대한 예외 처리
             throw new ArticleCategoryNotFoundException();

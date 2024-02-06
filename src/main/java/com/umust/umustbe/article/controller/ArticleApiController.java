@@ -54,10 +54,10 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @GetMapping("/{category}")
-    public ResponseEntity<List<ArticleListResponse>> getArticlesByCategoryAndNotDeleted(
+    public ResponseEntity<List<ArticleDetailResponse>> getArticlesByCategoryAndNotDeleted(
             @PathVariable String category
     ) {
-        List<ArticleListResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category);
+        List<ArticleDetailResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category);
         return ResponseEntity.ok().body(articles);
     }
 
