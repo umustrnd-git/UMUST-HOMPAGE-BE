@@ -4,6 +4,7 @@ import com.umust.umustbe.article.exception.ArticleCategoryNotFoundException;
 import com.umust.umustbe.article.exception.ArticleContentNullException;
 import com.umust.umustbe.article.exception.ArticleNotFoundException;
 import com.umust.umustbe.article.exception.ArticleTitleNullOrEmptyException;
+import com.umust.umustbe.file.exception.FileDeleteFailException;
 import com.umust.umustbe.file.exception.FileUploadFailException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public enum ExceptionType {
 
 
     FILE_UPLOAD_FAIL_EXCEPTION("7001", "파일 업로드에 실패했습니다.", FileUploadFailException.class),
+    FILE_DELETE_FAIL_EXCEPTION("7001", "파일 삭제에 실패했습니다.", FileDeleteFailException.class),
 
     /* Etc Exception */
     METHOD_ARGUMENT_NOT_VALID_EXCEPTION("0001", "요청 데이터가 잘못되었습니다."),

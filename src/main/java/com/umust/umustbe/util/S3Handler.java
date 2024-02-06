@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.umust.umustbe.file.exception.FileDeleteFailException;
 import com.umust.umustbe.file.exception.FileUploadFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,18 +72,17 @@ public class S3Handler {
     }
 
     //파일 삭제
-    public void deleteFile(String fileUrl) throws IOException {
-        int pos = fileUrl.lastIndexOf("/");
-        String key = fileUrl.substring(pos + 1);
+    public void deleteFile(String fileUrl){
+        // "amazonaws.com/" 이후의 부분 추출
+        String searchString = "amazonaws.com/";
+        int findKeyIndex = fileUrl.lastIndexOf(searchString) + searchString.length();
 
-        try {
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, key));
+        String key = fileUrl.substring(findKeyIndex);
 
-            System.out.println(String.format("[%s] deletion complete", key));
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, key));
 
-        } catch (Exception exception) {
-            throw new IOException();
-        }
+        System.out.printf("[%s] deletion complete%n", key);
+
     }
 
     public String getExt(MultipartFile imgFile) {
