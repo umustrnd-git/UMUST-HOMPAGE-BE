@@ -105,7 +105,7 @@ public class ArticleApplicationService {
 
     /* PUT) 게시글 수정 */
     @Transactional
-    public void update(long id, UpdateArticleRequest request) {
+    public void update(Long id, UpdateArticleRequest request) {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
@@ -117,7 +117,7 @@ public class ArticleApplicationService {
 
     /* DELETE) 게시글 삭제 */
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         Article article = articleRepository.findByIdOrNull(id);
         if (article == null) {
             throw new ArticleNotFoundException(id);
