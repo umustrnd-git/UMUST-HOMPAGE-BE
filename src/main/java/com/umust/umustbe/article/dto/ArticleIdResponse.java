@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class ArticleIdResponse {
+
     private Long id;
 
     public ArticleIdResponse(Article article) {

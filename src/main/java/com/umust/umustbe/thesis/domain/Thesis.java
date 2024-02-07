@@ -1,5 +1,6 @@
 package com.umust.umustbe.thesis.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.umust.umustbe.thesis.dto.ThesisDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,6 +25,7 @@ public class Thesis {
 
     @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date date;
 
