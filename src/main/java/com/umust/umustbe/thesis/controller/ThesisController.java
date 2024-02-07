@@ -5,10 +5,7 @@ import com.umust.umustbe.thesis.dto.ThesisDto;
 import com.umust.umustbe.thesis.service.ThesisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class ThesisController {
     }
 
     @PostMapping("/thesis")
-    public ResponseEntity addArticle(ThesisDto thesisDto) {
+    public ResponseEntity addArticle(@RequestBody ThesisDto thesisDto) {
         return ResponseEntity.ok(thesisService.createThesis(thesisDto));
     }
 
