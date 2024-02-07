@@ -89,7 +89,7 @@ public class ArticleApiController {
     @PostMapping
     public ResponseEntity<ArticleIdResponse> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
-            @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) throws IOException {
+            @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) {
 
         // 게시물 등록
         ArticleIdResponse articleIdResponse = articleApplicationService
@@ -124,8 +124,9 @@ public class ArticleApiController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponseBody> updateArticle(@PathVariable Long id,
-                                                          @Valid @RequestBody UpdateArticleRequest request) {
-        articleApplicationService.update(id, request);
+                                                          @Valid @RequestPart(value = "article") UpdateArticleRequest request,
+                                                          @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) {
+        articleApplicationService.updateWithFiles(id, request, multipartFiles);
         return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 수정 성공"));
     }
 

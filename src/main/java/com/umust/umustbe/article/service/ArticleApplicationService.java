@@ -71,13 +71,7 @@ public class ArticleApplicationService {
 
     /* POST) 게시글 생성 */
     @Transactional
-    @Deprecated
-    public ArticleIdResponse save(AddArticleRequest request) {
-        return articleFactory.save(request);
-    }
-
-    @Transactional
-    public ArticleIdResponse saveWithFiles(AddArticleRequest request, List<MultipartFile> multipartFiles) throws IOException {
+    public ArticleIdResponse saveWithFiles(AddArticleRequest request, List<MultipartFile> multipartFiles) {
         ArticleIdResponse articleId = articleFactory.save(request);
         Article savedArticle = articleRepository.findByIdOrNull(articleId.getId());
 
@@ -105,7 +99,7 @@ public class ArticleApplicationService {
 
     /* PUT) 게시글 수정 */
     @Transactional
-    public void update(Long id, UpdateArticleRequest request) {
+    public void updateWithFiles(Long id, UpdateArticleRequest request, List<MultipartFile> multipartFiles) {
         Article article = articleRepository.findByIdOrNull(id);
 
         if (article == null) {
@@ -113,6 +107,12 @@ public class ArticleApplicationService {
         }
 
         article.update(request.getTitle(), request.getContent());
+
+        // multipartFiles가 비어있지 않은 경우 s3 업로드
+        if (multipartFiles != null && !multipartFiles.isEmpty()) {
+            fileService.uploadArticleFiles(multipartFiles, article);
+        }
+
     }
 
     /* DELETE) 게시글 삭제 */
