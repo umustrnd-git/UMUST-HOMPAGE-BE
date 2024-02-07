@@ -1,6 +1,5 @@
 package com.umust.umustbe.article.repository.querydsl;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.type.ArticleCategory;
@@ -27,6 +26,7 @@ public class ArticleRepositoryCustomImpl extends QuerydslRepositorySupport imple
 
         List<Article> articleList = from(article)
                 .where(article.deletedAt.isNull())
+                .orderBy(article.id.desc())
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -45,6 +45,7 @@ public class ArticleRepositoryCustomImpl extends QuerydslRepositorySupport imple
         List<Article> articleList = from(article)
                 .where(article.category.eq(category)
                         .and(article.deletedAt.isNull()))
+                .orderBy(article.id.desc())
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();

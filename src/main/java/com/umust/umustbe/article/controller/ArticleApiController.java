@@ -42,13 +42,13 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @GetMapping
-    public ResponseEntity<Page<ArticleListResponse>> findAllArticles(
-            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    public ResponseEntity<Page<ArticleListResponse>> findAllArticles(Pageable pageable
     ) {
         Page<ArticleListResponse> articles = articleApplicationService.findAll(pageable);
 
         return ResponseEntity.ok().body(articles);
     }
+
 
     @Operation(summary = "카테고리별 게시글 목록 조회", description = "해당 카테고리의 게시글 목록을 조회한다.")
     @ApiResponses(value = {
@@ -62,7 +62,7 @@ public class ArticleApiController {
     @GetMapping("/{category}")
     public ResponseEntity<Page<ArticleDetailResponse>> getArticlesByCategoryAndNotDeleted(
             @PathVariable String category,
-            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+            Pageable pageable
     ) {
         Page<ArticleDetailResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category, pageable);
         return ResponseEntity.ok().body(articles);
