@@ -20,10 +20,13 @@ public class ArticleFile extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "article_id", nullable = false) //
+    @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
-    @Column(name = "file_url", nullable = false)
+    @Column(name = "original_file_name")
+    private String originalFileName;
+
+    @Column(name = "file_url", nullable = false, length = 500)
     private String fileUrl;
 
 }

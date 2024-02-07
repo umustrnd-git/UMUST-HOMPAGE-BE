@@ -13,12 +13,14 @@ import lombok.NoArgsConstructor;
 public class ArticleFileDetailResponse {
 
     private Long fildId;
+    private String originalFileName;
     private String fileURL;
 
-    public static ArticleFileDetailResponse from(ArticleFile image) {
+    public static ArticleFileDetailResponse from(ArticleFile file) {
         return ArticleFileDetailResponse.builder()
-                .fildId(image.getId())
-                .fileURL(image.getFileUrl())
+                .fildId(file.getId())
+                .originalFileName(file.getOriginalFileName())
+                .fileURL(file.getFileUrl())
                 .build();
     }
 }
