@@ -10,12 +10,16 @@ import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,21 +34,36 @@ public class ArticleApplicationService {
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
-    public List<ArticleListResponse> findAll() {
-        List<Article> articles = articleRepository.findAllNotDeleted();
+    public Page<ArticleListResponse> findAll(Pageable pageable) {
+        Page<Article> articles = articleRepository.findAllNotDeleted(pageable);
+        long count = articles.getTotalElements();
 
-        return articles.stream()
-                .map(ArticleListResponse::from).toList();
+        List<ArticleListResponse> articleListResponseList = new ArrayList<>();
+
+        for (Article article : articles) {
+            ArticleListResponse meetingResponseDto = ArticleListResponse.from(article);
+            articleListResponseList.add(meetingResponseDto);
+        }
+
+        return new PageImpl<>(articleListResponseList, pageable, count);
     }
 
     /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
-    public List<ArticleDetailResponse> getArticlesByCategoryAndNotDeleted(String category) {
+    public Page<ArticleDetailResponse> getArticlesByCategoryAndNotDeleted(String category, Pageable pageable) {
         try {
             ArticleCategory articleCategory = ArticleCategory.valueOf(category.toUpperCase());
-            List<Article> articles = articleRepository.findArticlesByCategoryAndNotDeleted(articleCategory);
-            return articles.stream()
-                    .map(ArticleDetailResponse::from).toList();
+            Page<Article> articles = articleRepository.findArticlesByCategoryAndNotDeleted(articleCategory, pageable);
+            long count = articles.getTotalElements();
+
+            List<ArticleDetailResponse> articleDetailResponseList = new ArrayList<>();
+
+            for (Article article : articles) {
+                ArticleDetailResponse meetingResponseDto = ArticleDetailResponse.from(article);
+                articleDetailResponseList.add(meetingResponseDto);
+            }
+
+            return new PageImpl<>(articleDetailResponseList, pageable, count);
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 카테고리에 대한 예외 처리
             throw new ArticleCategoryNotFoundException();
@@ -59,7 +78,7 @@ public class ArticleApplicationService {
             Article latestArticle = articleRepository.findLatestArticleByCategoryOrNull(articleCategory);
 
             if (latestArticle == null) {
-                throw new NotFoundException("No articles found for category: " + category);
+                throw new ArticleCategoryNotFoundException();
             }
 
             return latestArticle.toDetailDTO();

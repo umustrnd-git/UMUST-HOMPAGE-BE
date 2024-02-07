@@ -12,12 +12,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Article", description = "Article 관련 API 입니다.")
@@ -38,8 +42,10 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @GetMapping
-    public ResponseEntity<List<ArticleListResponse>> findAllArticles() {
-        List<ArticleListResponse> articles = articleApplicationService.findAll();
+    public ResponseEntity<Page<ArticleListResponse>> findAllArticles(
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<ArticleListResponse> articles = articleApplicationService.findAll(pageable);
 
         return ResponseEntity.ok().body(articles);
     }
@@ -54,10 +60,11 @@ public class ArticleApiController {
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
     @GetMapping("/{category}")
-    public ResponseEntity<List<ArticleDetailResponse>> getArticlesByCategoryAndNotDeleted(
-            @PathVariable String category
+    public ResponseEntity<Page<ArticleDetailResponse>> getArticlesByCategoryAndNotDeleted(
+            @PathVariable String category,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        List<ArticleDetailResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category);
+        Page<ArticleDetailResponse> articles = articleApplicationService.getArticlesByCategoryAndNotDeleted(category, pageable);
         return ResponseEntity.ok().body(articles);
     }
 
@@ -86,7 +93,7 @@ public class ArticleApiController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ArticleIdResponse> addArticle(
             @Valid @RequestPart(value = "article") AddArticleRequest request,
             @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) {
@@ -101,8 +108,8 @@ public class ArticleApiController {
     @Operation(summary = "게시글 상세 조회 및 조회수 1 증가", description = "id로 게시글을 상세 조회한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ArticleDetailResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Article not found")
+            @ApiResponse(responseCode = "3001", description = "게시글이 존재하지 않습니다."),
+            @ApiResponse(responseCode = "0000", description = "알 수 없는 서버 에러가 발생했습니다."),
     })
     @PatchMapping("/{id}")
     // URL 경로에서 값 추출
@@ -116,13 +123,13 @@ public class ArticleApiController {
     @Operation(summary = "게시글 수정", description = "id로 게시글을 수정한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Article.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Article not found"),
+            @ApiResponse(responseCode = "3001", description = "게시글이 존재하지 않습니다."),
+            @ApiResponse(responseCode = "0000", description = "알 수 없는 서버 에러가 발생했습니다."),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponseBody> updateArticle(@PathVariable Long id,
                                                           @Valid @RequestPart(value = "article") UpdateArticleRequest request,
                                                           @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) {
