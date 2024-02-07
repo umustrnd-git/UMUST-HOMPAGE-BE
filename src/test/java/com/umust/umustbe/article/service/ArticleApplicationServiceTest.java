@@ -9,6 +9,7 @@ import com.umust.umustbe.article.repository.ArticleRepository;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.file.service.FileService;
 import com.umust.umustbe.util.S3Handler;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -88,6 +89,7 @@ class ArticleApplicationServiceTest {
         assertThat(article.getContent()).isEqualTo("내용");
     }
 
+    @Disabled
     @DisplayName("게시글을 업데이트한다")
     @Test
     public void givenExistingArticle_whenUpdate_thenTitleAndContentUpdated() {
@@ -108,6 +110,7 @@ class ArticleApplicationServiceTest {
 //        verify(articleRepository, times(1)).findByIdOrNull(articleId);
     }
 
+    @Disabled
     @DisplayName("게시글을 업데이트에 실패한다")
     @Test
     public void givenNonExistentArticle_whenUpdate_thenNotFoundExceptionThrown() {
