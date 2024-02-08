@@ -70,7 +70,7 @@ public class ArticleApplicationService {
         }
     }
 
-    /* GET) 게시글 리스트 조회 readOnly 속성으로 조회속도 개선 */
+    /* GET) 카테고리별 최신 게시글 1건 조회 - readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
     public ArticleDetailResponse getLatestArticleByCategory(String category) {
         try {
