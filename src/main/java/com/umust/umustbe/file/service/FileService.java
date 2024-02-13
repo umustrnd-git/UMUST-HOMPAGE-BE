@@ -2,8 +2,8 @@ package com.umust.umustbe.file.service;
 
 import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.article.domain.ArticleFile;
-import com.umust.umustbe.file.dto.FileUrlResponse;
 import com.umust.umustbe.article.repository.ArticleFileRepository;
+import com.umust.umustbe.file.dto.FileUrlResponse;
 import com.umust.umustbe.util.S3Handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

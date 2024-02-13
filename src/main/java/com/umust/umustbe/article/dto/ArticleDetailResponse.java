@@ -16,7 +16,7 @@ public record ArticleDetailResponse(Long id,
                                     LocalDateTime createdAt,
                                     String createdBy,
                                     LocalDateTime modifiedAt,
-                                    List<ArticleFileDetailResponse> files){
+                                    List<ArticleFileDetailResponse> files) {
 
     public static ArticleDetailResponse from(Article article) {
         List<ArticleFileDetailResponse> fileUrlResponses = article.getFiles().stream()

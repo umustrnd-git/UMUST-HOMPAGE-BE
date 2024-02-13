@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.umust.umustbe.file.exception.FileDeleteFailException;
 import com.umust.umustbe.file.exception.FileUploadFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +35,7 @@ public class S3Handler {
         }
     }
 
-    public String uploadFile(MultipartFile uploadFile){
+    public String uploadFile(MultipartFile uploadFile) {
         String ext = getExt(uploadFile);
         String fileName = UUID.randomUUID() + "." + ext;
 
@@ -72,7 +71,7 @@ public class S3Handler {
     }
 
     //파일 삭제
-    public void deleteFile(String fileUrl){
+    public void deleteFile(String fileUrl) {
         // "amazonaws.com/" 이후의 부분 추출
         String searchString = "amazonaws.com/";
         int findKeyIndex = fileUrl.lastIndexOf(searchString) + searchString.length();

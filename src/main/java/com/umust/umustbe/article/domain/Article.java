@@ -1,9 +1,9 @@
 package com.umust.umustbe.article.domain;
 
 import com.umust.umustbe.article.dto.ArticleDetailResponse;
+import com.umust.umustbe.article.dto.ArticleFileDetailResponse;
 import com.umust.umustbe.article.type.ArticleCategory;
 import com.umust.umustbe.common.entity.BaseEntity;
-import com.umust.umustbe.article.dto.ArticleFileDetailResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

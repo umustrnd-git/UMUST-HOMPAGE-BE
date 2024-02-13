@@ -1,13 +1,11 @@
 package com.umust.umustbe.thesis.service;
 
-import com.umust.umustbe.article.dto.BaseResponseBody;
 import com.umust.umustbe.thesis.domain.Thesis;
 import com.umust.umustbe.thesis.dto.ThesisDto;
 import com.umust.umustbe.thesis.dto.ThesisIdResponse;
 import com.umust.umustbe.thesis.repository.ThesisRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +19,7 @@ public class ThesisService {
     /* GET) 논문 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
     public List<ThesisDto> getThesesByOrderByDate() {
-        List<Thesis> theses =  thesisRepository.findAllByOrderByDateDesc();
+        List<Thesis> theses = thesisRepository.findAllByOrderByDateDesc();
         List<ThesisDto> thesesDto = theses
                 .stream()
                 .map(ThesisDto::from)
