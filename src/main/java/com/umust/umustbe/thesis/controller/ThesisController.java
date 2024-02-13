@@ -39,7 +39,7 @@ public class ThesisController {
     }
 
     @DeleteMapping("/thesis/{id}")
-    public ResponseEntity<BaseResponseBody> deleteThesis(@PathVariable Long id) {
+    public ResponseEntity<BaseResponseBody> deleteThesis(@PathVariable Long id){
         thesisService.delete(id);
         return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 삭제 성공"));
     }

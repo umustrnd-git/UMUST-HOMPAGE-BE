@@ -1,5 +1,6 @@
 package com.umust.umustbe.thesis.dto;
 
+import com.umust.umustbe.article.domain.Article;
 import com.umust.umustbe.thesis.domain.Thesis;
 import lombok.*;
 
