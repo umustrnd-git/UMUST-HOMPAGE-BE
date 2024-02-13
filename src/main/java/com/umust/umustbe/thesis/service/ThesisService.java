@@ -22,7 +22,6 @@ public class ThesisService {
     @Transactional(readOnly = true)
     public List<ThesisDto> getThesesByOrderByDate() {
         List<Thesis> theses = thesisRepository.findAllByOrderByDateDesc();
-        List<Thesis> theses =  thesisRepository.findAllByOrderByDateDesc();
         List<ThesisDto> thesesDto = theses
                 .stream()
                 .map(ThesisDto::from)

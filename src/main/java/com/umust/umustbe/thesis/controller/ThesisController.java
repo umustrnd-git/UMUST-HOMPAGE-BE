@@ -43,5 +43,4 @@ public class ThesisController {
         thesisService.delete(id);
         return ResponseEntity.ok(BaseResponseBody.of(200, "게시글 삭제 성공"));
     }
-
 }
