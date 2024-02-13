@@ -16,13 +16,14 @@ public class BaseResponseBody {
     @Schema(description = "응답 코드", example = "200")
     Integer statusCode = null;
 
-    public BaseResponseBody() {}
+    public BaseResponseBody() {
+    }
 
-    public BaseResponseBody(Integer statusCode){
+    public BaseResponseBody(Integer statusCode) {
         this.statusCode = statusCode;
     }
 
-    public BaseResponseBody(Integer statusCode, String message){
+    public BaseResponseBody(Integer statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }

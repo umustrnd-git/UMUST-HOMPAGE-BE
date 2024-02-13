@@ -21,6 +21,7 @@ public class ThesisService {
     /* GET) 논문 리스트 조회 readOnly 속성으로 조회속도 개선 */
     @Transactional(readOnly = true)
     public List<ThesisDto> getThesesByOrderByDate() {
+        List<Thesis> theses = thesisRepository.findAllByOrderByDateDesc();
         List<Thesis> theses =  thesisRepository.findAllByOrderByDateDesc();
         List<ThesisDto> thesesDto = theses
                 .stream()
